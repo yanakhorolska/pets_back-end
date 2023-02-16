@@ -1,8 +1,9 @@
 const { mongoose } = require("mongoose");
-const app = require("./app");
-mongoose.set("strictQuery", false);
+
 const dotenv = require("dotenv");
 dotenv.config();
+
+const app = require("./app");
 
 const { PORT = 3000, MONGO_URI } = process.env;
 
