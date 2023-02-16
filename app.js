@@ -7,7 +7,7 @@ const swaggerDocument = require("./swagger/care-pets-en.json");
 
 require("dotenv").config();
 
-const { authRouter } = require("./routes/api/authRouter");
+// const { authRouter } = require("./routes/api/authRouter");
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
 const noticesRouter = require("./routes/api/noticesRoutes");
 const servicesRoutes = require("./routes/api/servicesRoutes");
@@ -16,11 +16,11 @@ app.use(logger(formatsLogger));
 app.use(cors());
 app.use(express.json());
 
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use(express.static("public"));
 
 app.use("/api/notices", noticesRouter);
-app.use("/api/auth", authRouter);
+// app.use("/api/auth", authRouter);
 app.use("/api/friends", servicesRoutes);
 
 app.use((req, res) => {
