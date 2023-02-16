@@ -10,7 +10,7 @@ const router = express.Router();
 
 router
   .post("/register", ctrlWrapper(ctrl.register))
-  // .post("/login", ctrlWrapper(ctrl.login))
-  // .post("/logout", authentificate, ctrlWrapper(ctrl.logout))
+  .post("/login", ctrlWrapper(ctrl.login))
+  .post("/logout", authentificate, ctrlWrapper(ctrl.logout))
 
 module.exports = router
