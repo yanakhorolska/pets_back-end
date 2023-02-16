@@ -1,6 +1,6 @@
-const { User } = require("../models/userModel");
+const { User } = require("../../models/userModel");
 const bcrypt = require("bcrypt");
-const { Unauthorized, Conflict, NotFound, BadRequest } = require("http-errors");
+const { Conflict } = require("http-errors");
 
 // const JWT_SECRET = process.env;
 
@@ -11,7 +11,6 @@ async function register(req, res, next) {
   const hashedPassword = await bcrypt.hash(password, salt);
 
   try {
-    
     const savedUser = await User.create({
       email,
       password: hashedPassword,
@@ -19,10 +18,9 @@ async function register(req, res, next) {
     });
     console.log(savedUser);
     res.status(201).json({
-        user: {
+      user: {
         name,
         email,
-        
       },
     });
   } catch (error) {
@@ -34,9 +32,4 @@ async function register(req, res, next) {
   }
 }
 
-module.exports = {
-  register,
-//   login,
-//   logout,
-  
-};
+module.exports = register;

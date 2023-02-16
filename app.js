@@ -3,15 +3,20 @@ const app = express();
 const logger = require("morgan");
 const cors = require("cors");
 
-const { authRouter } = require("./routes/authRouter");
+require("dotenv").config();
+
+const { authRouter } = require("./routes/api/authRouter");
 
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
+
+const noticesRouter = require("./routes/api/noticesRoutes");
 
 app.use(logger(formatsLogger));
 app.use(cors());
 app.use(express.json());
 app.use(express.static("public"));
 
+app.use("/api/notices", noticesRouter);
 app.use("/api/auth", authRouter);
 
 app.use((req, res) => {
