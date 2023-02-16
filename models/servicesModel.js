@@ -16,9 +16,11 @@ const friends = new Schema({
   address: {
     type: String,
   },
-  workDays: {
-    type: String,
-  },
+  workDays: [{
+    isOpen: Boolean,
+    from: String,
+    to: String
+  }],
   phone: {
     type: String,
   },
