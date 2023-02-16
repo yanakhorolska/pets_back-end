@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 const { Unauthorized } = require('http-errors')
 
 
-const { JWT_SECRET } = process.env;
+const { SECRET_KEY } = process.env;
 
 
 async function authentificate(req, res, next) {
@@ -19,7 +19,7 @@ async function authentificate(req, res, next) {
   }
 
   try {
-    const { id } = jwt.verify(token, JWT_SECRET);
+    const { id } = jwt.verify(token, SECRET_KEY);
     const user = await User.findById(id);
 
     console.log(user)
