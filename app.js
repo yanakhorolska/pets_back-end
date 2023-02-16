@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const logger = require("morgan");
 const cors = require("cors");
+const servicesRoutes = require("./routes/servicesRoutes");
 
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
 
@@ -9,6 +10,8 @@ app.use(logger(formatsLogger));
 app.use(cors());
 app.use(express.json());
 app.use(express.static("public"));
+
+app.use("/friends", servicesRoutes);
 
 app.use((req, res) => {
   res.status(404).json({ message: "Not found" });
