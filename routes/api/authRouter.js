@@ -1,14 +1,13 @@
 const express = require("express");
 const { auth: ctrl } = require("../../controllers");
 const { ctrlWrapper } = require("../../helpers");
-const { authentificate} = require("../../middlewares")
+const { authentificate } = require("../../middlewares")
 
-const authRouter = express.Router();
+const router = express.Router();
 
-authRouter.post("/register", ctrlWrapper(ctrl.register));
-authRouter.post("/login", ctrlWrapper(ctrl.login))
-authRouter.post("/logout", authentificate, ctrlWrapper(ctrl.logout))
+router
+  .post("/register", ctrlWrapper(ctrl.register))
+  .post("/login", ctrlWrapper(ctrl.login))
+  .post("/logout", authentificate, ctrlWrapper(ctrl.logout))
 
-module.exports = {
-  authRouter,
-};
+module.exports = router;
