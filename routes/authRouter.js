@@ -1,14 +1,14 @@
-const express = require("express")
+const express = require("express");
 // const {auth} = require("../middlewares/authMiddleware")
-const { register, login, logout } = require("../controllers/authControllers")
-const { tryCatchWrapper } = require("../helpers/trycatchWrapper")
+const { register, login, logout } = require("../controllers/authControllers");
+const { ctrlWrapper } = require("../middlewares");
 
-const authRouter = express.Router()
+const authRouter = express.Router();
 
-authRouter.post("/register", tryCatchWrapper(register) )
+authRouter.post("/register", ctrlWrapper(register));
 // authRouter.post("/login", login)
 // authRouter.post("/logout", auth, logout)
 
 module.exports = {
-    authRouter
-}
+  authRouter,
+};
