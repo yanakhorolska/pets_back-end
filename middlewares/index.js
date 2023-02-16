@@ -1,3 +1,3 @@
-const ctrlWrapper = require("./ctrlWrapper");
+const authentificate = require("./authentificate");
 
-module.exports = { ctrlWrapper };
+module.exports = { authentificate };
