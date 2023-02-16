@@ -1,5 +1,5 @@
 const auth = require("./auth");
 const notices = require("./notices");
-const { servicesControllers } = require("./servicesControler");
+const services = require("./services");
 
-module.exports = { auth, notices, servicesControllers };
+module.exports = { auth, notices, services };

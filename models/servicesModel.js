@@ -1,6 +1,6 @@
 const { Schema, model } = require("mongoose");
 
-const friends = new Schema({
+const serviceShema = new Schema({
   title: {
     type: String,
   },
@@ -29,8 +29,8 @@ const friends = new Schema({
   },
 });
 
-const servicesModel = model("sponsors", friends);
+const Service = model("sponsor", serviceShema);
 
 module.exports = {
-  servicesModel,
+  Service,
 };
