@@ -4,23 +4,19 @@ mongoose.set("strictQuery", false);
 const dotenv = require("dotenv");
 dotenv.config();
 
-const { MONGO_URI } = process.env;
+const { PORT = 3000, MONGO_URI } = process.env;
 
-(async function main() {
-  try {
-    await mongoose
-      .connect(MONGO_URI)
-      .then(() => {
-        console.log("Database connection successful");
-        app.listen(3000, () => {
-          console.log("Server is running on port: 3000");
-        });
-      })
-      .catch((err) => {
-        console.error("Error with database connection:", err.message);
-        process.exit(1);
-      });
-  } catch (err) {
-    console.error("error:", err.message);
-  }
-})();
+mongoose.Promise = global.Promise;
+mongoose.set("strictQuery", true);
+
+try {
+  mongoose.connect(MONGO_URI);
+  console.log("Database connected succsesful");
+
+  app.listen(PORT, () => {
+    console.log("Server running. Use our API on port:", PORT);
+  });
+} catch (error) {
+  console.log(error.message);
+  process.exit(1);
+}
