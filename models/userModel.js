@@ -45,7 +45,7 @@ const userSchema = new Schema(
     avatarURL: {
       type: String
     },
-    friend: [ 
+    friends: [ 
       {
       type: Schema.Types.ObjectId,
       ref:"user"
