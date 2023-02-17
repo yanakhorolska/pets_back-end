@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const logger = require("morgan");
 const cors = require("cors");
+const qs = require("qs");
 
 require("dotenv").config();
 
@@ -9,11 +10,15 @@ const authRouter = require("./routes/api/authRoutes");
 const userRouter = require("./routes/api/userRoutes");
 const petsRouter = require('./routes/api/petsRoutes');
 const noticesRouter = require("./routes/api/noticesRoutes");
-// const newsRouter = require("./routes/api/newsRoutes");
-//const sponsorsRouter = require('./routes/api/sponsorsRoutes');
-const servicesRouter = require('./routes/api/servicesRoutes');
+const newsRouter = require("./routes/api/newsRoutes");
+// const sponsorsRouter = require('./routes/api/sponsorsRoutes');
+const servicesRouter = require("./routes/api/servicesRoutes");
 
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
+
+app.set("query parser", function (str) {
+  return qs.parse(str, { ignoreQueryPrefix: true });
+});
 
 app.use(logger(formatsLogger));
 app.use(cors());
@@ -26,16 +31,16 @@ app.use("/api/users", userRouter);
 app.use("/api/pets", petsRouter)
 app.use("/api/notices", noticesRouter);
 
-// app.use("/api/news", newsRouter);
+app.use("/api/news", newsRouter);
 app.use("/api/friends", servicesRouter);
 
 // app.use("/api/sponsor", sponsorsRouter)
 
-app.use((req, res) => {
+app.use((_, res) => {
   res.status(404).json({ message: "Not found" });
 });
 
-app.use((err, req, res, next) => {
+app.use((err, _, res, __) => {
   res.status(500).json({ message: err.message });
 });
 
