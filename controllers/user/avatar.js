@@ -10,7 +10,6 @@ const getBufferFromFile = async (pathToFile) => {
   return buffer
 }
 
-
 const getTempLoad = async (fileToUpload) =>{
   const {path, buffer} = fileToUpload;
 
@@ -31,7 +30,7 @@ const updateAvatar = async (req, res, next) => {
     await User.findByIdAndUpdate(id, {avatarURL});
     res.json({avatarURL});
   } catch (error) {
-    throw error;
+    throw error; //!!!
   }
 }
 

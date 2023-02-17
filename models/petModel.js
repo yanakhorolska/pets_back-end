@@ -42,15 +42,19 @@ const petSchema = new Schema(
       type: String,
       required: [true, "name is required"],
     },
-    kind: {
-      type: Schema.Types.ObjectId,
-      ref: "petkind",
-      required: true,
-    },
-    breed: {
-       type: Schema.Types.ObjectId,
-       ref: "petbreed",
-       required: true,
+    // kind: {
+    //   type: Schema.Types.ObjectId,
+    //   ref: "petkind",
+    //   required: true,
+    // },
+    // breed: {
+    //    type: Schema.Types.ObjectId,
+    //    ref: "petbreed",
+    //    required: true,
+    // },
+    breed : {
+        type: String,
+        required : [true, "breed is required"]
     },
     // sex: {
     //     type: String,
@@ -82,11 +86,12 @@ const petsMessage = { messages: {'any.required': "missing fields"} };
 const addSchema = Joi.object({
     nickname: Joi.string().min(2).max(16).required(),
     birthday: Joi.date().required(),
-    breed: Joi.object().keys({
-        name : Joi.string().min(2).max(16).required(),
-        }
-    ).required(),
-    comment: Joi.string().min(8).max(120).required()
+    // breed: Joi.object().keys({
+    //     name : Joi.string().min(2).max(16).required(),
+    //     }
+    // ).required(),
+    breed: Joi.string().min(2).max(16).required(),
+    comment: Joi.string().min(8).max(120).required(),
     //sex: Joi.string().valueOf(...sex).default(defaultSex),
   }).required()
 
@@ -99,7 +104,5 @@ const schemas = {addSchema}
 
 module.exports = {
     Pet,
-    Kind, 
-    Breed, 
     schemas,
     customMessage: {petsMessage} }
