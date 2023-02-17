@@ -1,7 +1,7 @@
 const { Schema, model } = require("mongoose");
 const Joi = require("joi");
 
-const NOTICE_TYPES = ["lostFound", "inGoodHands", "sell"];
+const NOTICE_CATEGORY = ["lostFound", "inGoodHands", "sell"];
 const SEX = ["male", "female"];
 
 const notice = new Schema(
@@ -10,10 +10,10 @@ const notice = new Schema(
       type: String,
       required: [true, "Title for pet is required"],
     },
-    type: {
+    category: {
       type: String,
-      enum: NOTICE_TYPES,
-      default: NOTICE_TYPES[0],
+      enum: NOTICE_CATEGORY,
+      default: NOTICE_CATEGORY[0],
       required: [true, "Type for notice is required"],
     },
     petName: {
@@ -80,7 +80,6 @@ const Notice = model("notice", notice);
 
 const addNoticeSchema = Joi.object({
   title: Joi.string().min(2).required(),
-  type: Joi.string().required(),
   petName: Joi.string().min(2).required(),
   dateOfBirth: Joi.date().required(),
   breed: Joi.string().required(),
