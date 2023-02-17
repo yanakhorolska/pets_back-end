@@ -1,5 +1,6 @@
 const { News } = require("../../models/newsModel");
 const { BadRequest } = require("http-errors");
+
 async function getNews(req, res) {
   try {
     const { query } = req.query;
@@ -22,4 +23,5 @@ async function getNews(req, res) {
     throw BadRequest();
   }
 }
+
 module.exports = { getNews };
