@@ -1,18 +1,19 @@
 const multer = require('multer')
-const path = require('path')
+// #filesistem
+// const path = require('path')
 
-const tempDir = path.join(__dirname, '../', "temp");
+// const tempDir = path.join(__dirname, '../', "temp");
 
-const multerConfig = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, tempDir)
-  },
-  file: (req, file, cb) => {
-    cb(null, file.originalname)
-  }
-})
+// const multerConfig = multer.diskStorage({
+//   destination: (req, file, cb) => {
+//     cb(null, tempDir)
+//   },
+//   file: (req, file, cb) => {
+//     cb(null, file.originalname)
+//   }
+// })
 
-const upload = multer({storage: multerConfig});
+// const upload = multer({storage: multerConfig});
 
 // #cloudinary
 // const cloudinary = require('cloudinary').v2;
@@ -37,7 +38,7 @@ const upload = multer({storage: multerConfig});
 
 // const upload = multer({storage: cloudinaryStorage})
 
-//#memoryStorage 
-// const upload = multer({storage: multer.memoryStorage()})
+// #memoryStorage
+const upload = multer({storage: multer.memoryStorage()})
 
 module.exports = upload;
