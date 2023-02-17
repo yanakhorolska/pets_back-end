@@ -11,7 +11,7 @@ const router = Router()
 
 router
     //.get("/", authentificate, ctrlWrapper(ctrl.getAll))
-    .post("/", authentificate, validation(schemas, customMessage), ctrlWrapper(ctrl.addPet))
+    .post("/", authentificate, validation(schemas.addSchema, customMessage), ctrlWrapper(ctrl.addPet))
 
     .get("/:petId", authentificate, isValidId("petId"), ctrlWrapper(ctrl.getByID))
     // .put("/:petId", authentificate, isValidId("petId"), )

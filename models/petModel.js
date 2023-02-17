@@ -1,7 +1,8 @@
 const { Schema, model } = require('mongoose');
 const { handleValidationErrors } = require("../helpers");
 
-const Joi = require("joi");
+const Joi = require("joi")
+  .extend(require('@joi/date'));
 
 // const sex = ["male", "female"]
 // const defaultSex = sex[0];
@@ -85,7 +86,7 @@ const petsMessage = { messages: {'any.required': "missing fields"} };
 
 const addSchema = Joi.object({
     nickname: Joi.string().min(2).max(16).required(),
-    birthday: Joi.date().required(),
+    birthday: Joi.date().format('YYYY-MM-DD').utc().required(),
     // breed: Joi.object().keys({
     //     name : Joi.string().min(2).max(16).required(),
     //     }
