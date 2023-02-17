@@ -1,12 +1,14 @@
 const { isValidObjectId } = require("mongoose");
 const { BadRequest } = require("http-errors");
 
-const isValidId = (req, _, next) => {
-  const { contactId } = req.params;
-  if (!isValidObjectId(contactId)) {
-    next(BadRequest(`ID: ${contactId} has not correct format!`));
+const isValidId = ( nameParam ) => {
+  return (req, _, next) => {
+      const paramId = req.params[nameParam];
+      if (!isValidObjectId(paramId)) {
+        next(BadRequest(`ID: ${paramId} has not correct format!`));
+      }
+      next();
   }
-  next();
 };
 
 module.exports = isValidId;
