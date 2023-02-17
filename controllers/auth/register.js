@@ -2,7 +2,6 @@ const { User } = require("../../models/userModel");
 const bcrypt = require("bcrypt");
 const { Conflict } = require("http-errors");
 
-// const JWT_SECRET = process.env;
 
 async function register(req, res, next) {
   const { email, password, name } = req.body;

@@ -9,7 +9,7 @@ const getNoticeById = async (req, res) => {
   if (notice) {
     res.json(notice);
   } else {
-    throw NotFound(`Can not find contact with ID:${noticeId}`);
+    throw NotFound(`Can not find notice with ID:${noticeId}`);
   }
 };
 

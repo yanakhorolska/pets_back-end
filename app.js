@@ -25,7 +25,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static("public"));
 
-app.use("/api/auth", authRouter);
+app.use("/api/users", authRouter);
 app.use("/api/users", userRouter);
 
 app.use("/api/pets", petsRouter)
@@ -42,7 +42,7 @@ app.use((_, res) => {
 
 app.use((err, _, res, __) => {
   const {status = 500, message = "Server error"} = err;
-  res.status(status).json(message);
+  res.status(status).json({message});
 });
 
 module.exports = app;
