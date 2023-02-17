@@ -7,7 +7,10 @@
   },
   "servers": [
     {
-      "url": "https://care-pets-backend.com/api"
+      "url": "http://localhost:3000/api"
+    },
+    {
+      "url": "http://care-pets.com/api"
     }
   ],
   "tags": [
@@ -41,7 +44,7 @@
     }
   ],
   "paths": {
-    "/user/registration": {
+    "/auth/register": {
       "post": {
         "tags": [
           "user"
@@ -73,7 +76,7 @@
         }
       }
     },
-    "/user/login": {
+    "/auth/login": {
       "post": {
         "tags": [
           "user"
@@ -108,7 +111,7 @@
         }
       }
     },
-    "/user/logout": {
+    "/auth/logout": {
       "post": {
         "tags": [
           "user"
@@ -141,7 +144,7 @@
         ]
       }
     },
-    "/user/current": {
+    "/users/current": {
       "get": {
         "tags": [
           "user"
@@ -535,7 +538,7 @@
         }
       }
     },
-    "/pet": {
+    "/pets": {
       "post": {
         "tags": [
           "pet"
@@ -607,7 +610,7 @@
         ]
       }
     },
-    "/pet/:petId": {
+    "/pets/:petId": {
       "delete": {
         "tags": [
           "pet"
