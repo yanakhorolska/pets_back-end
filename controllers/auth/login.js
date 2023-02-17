@@ -9,7 +9,7 @@ async function login(req, res) {
     const { email, password } = req.body;
     
   const storedUser = await User.findOne({ email });
-  console.log(storedUser)
+
   if (!storedUser) {
     throw Unauthorized("Email or password is not valid");
   }
@@ -24,9 +24,9 @@ async function login(req, res) {
   const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "1h" });
   await User.findByIdAndUpdate(storedUser._id, { token });
   return res.json({
-    token: token,
+    token,
     user: {
-        email: email,
+        email,
         name: storedUser.name,
     },
   });

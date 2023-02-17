@@ -21,9 +21,7 @@ async function authentificate(req, res, next) {
   try {
     const { id } = jwt.verify(token, SECRET_KEY);
     const user = await User.findById(id);
-
-    console.log(user)
-
+    
     req.user = user;
   } catch (error) {
     if (
