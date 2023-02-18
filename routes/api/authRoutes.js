@@ -10,7 +10,7 @@ const { schemas } = require('../../models/userModel')
 const router = Router();
 
 router
-  .post("/register", validation(schemas.registerSchema) ,ctrlWrapper(ctrl.register))
+  .post("/register", validation(schemas.registerSchema), ctrlWrapper(ctrl.register))
   .post("/login", validation(schemas.loginSchema), ctrlWrapper(ctrl.login))
   .get("/logout", authentificate, ctrlWrapper(ctrl.logout))
 
