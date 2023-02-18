@@ -1,19 +1,21 @@
 const { User } = require("../../models/userModel");
+const bcrypt = require('bcryptjs');
 const { Conflict } = require("http-errors");
 
 
 async function register(req, res, next) {
-  const { email, password, name, city, phone} = req.body;
+  const { email, password, name, city, phone, confirmPassword} = req.body;
 
-  // const salt = await bcrypt.genSalt();
-  // const hashedPassword = await bcrypt.hash(password, salt);
+  const salt = await bcrypt.genSalt();
+  const hashedPassword = await bcrypt.hash(password, salt);
 
-  User.setPassword(password)
+  // User.setPassword(password)
 
   try {
     const savedUser = await User.create({
       email,
       password: hashedPassword,
+      confirmPassword: hashedPassword,
       name,
       city,
       phone,

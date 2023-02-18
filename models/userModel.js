@@ -35,6 +35,10 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
+    confirmPassword: {
+      type: String,
+      required: true,
+    },
     token: {
       type: String,
       default: null,
@@ -81,6 +85,7 @@ const userMessage = { messages: {'any.required': "missing fields"} };
 const registerSchema = Joi.object({
   email: Joi.string().email({ tlds: false }).required(),
   password: Joi.string().alphanum().min(7).max(32).required(),
+  confirmPassword: Joi.ref('password'),
   name: Joi.string().min(3).required().pattern(/[A-Za-z]+/),
   city: Joi.string().pattern(/[A-Za-z]+, [A-Za-z]+/),
   phone: Joi.string().pattern(/^\+380\d{9}$/),
