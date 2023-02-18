@@ -37,7 +37,7 @@ const userSchema = new Schema(
     },
     confirmPassword: {
       type: String,
-      required: true,
+      
     },
     token: {
       type: String,
@@ -69,7 +69,7 @@ const userSchema = new Schema(
       },
       getToken() {
         const payload = { id: this._id };
-        const token = jwt.sign(payload, SECRET_KEY);
+        const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "1h" });
         this.token = token;
         this.save();
         return token;
@@ -104,9 +104,8 @@ const updateSchema = Joi.object({
   city: Joi.string().pattern(/[A-Za-z]+, [A-Za-z]+/),
 }).required()
 
-// const schemas = { registerSchema, loginSchema, updateSchema }
-
+const schemas = { registerSchema, loginSchema, updateSchema }
 
 const User = model("user", userSchema);
 
-module.exports = { User, registerSchema,  loginSchema, updateSchema};
+module.exports = { User, schemas }

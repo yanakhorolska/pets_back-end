@@ -1,8 +1,8 @@
 const { User } = require("../../models/userModel");
 const { Unauthorized } = require("http-errors");
-const jwt = require("jsonwebtoken");
+// const jwt = require("jsonwebtoken");
 
-const { SECRET_KEY } = process.env
+// const { SECRET_KEY } = process.env
 
 async function login(req, res) {
     const { email, password } = req.body;
@@ -13,16 +13,9 @@ async function login(req, res) {
     throw Unauthorized("Email or password is not valid");
   }
 
-  // const isPasswordValid = await bcrypt.compare(password, storedUser.password);
+  storedUser.isValidPassword(password)
 
-  User.isValidPassword(password)
-
-  if (!isPasswordValid) {
-    throw Unauthorized("Email or password is not valid");
-  }
-
-  const payload = { id: storedUser._id };
-  const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "1h" });
+  const token = storedUser.getToken()
   await User.findByIdAndUpdate(storedUser._id, { token });
   return res.json({
     token,
