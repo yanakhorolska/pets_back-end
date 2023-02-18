@@ -50,10 +50,10 @@ const notice = new Schema(
       type: String,
       default: null,
     },
-    favorite: {
-      type: Boolean,
-      default: false,
-    },
+    // favorite: {
+    //   type: Boolean,
+    //   default: false,
+    // },
     owner: {
       type: Schema.Types.ObjectId,
       ref: "user",
@@ -88,7 +88,7 @@ const addNoticeSchema = Joi.object({
   price: Joi.number(),
   imageUrl: Joi.string(),
   comment: Joi.string(),
-  favorite: Joi.boolean(),
+  // favorite: Joi.boolean(),
 }).required();
 
 function calculateAge(birthday) {

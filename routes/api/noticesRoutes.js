@@ -5,7 +5,7 @@ const { notices: ctrl } = require("../../controllers");
 const { ctrlWrapper } = require("../../helpers");
 
 const { addNoticeSchema } = require("../../models/noticeModel");
-const { validation, isValidId } = require("../../middlewares");
+const { validation, isValidId, authentificate } = require("../../middlewares");
 
 router.get("/", ctrlWrapper(ctrl.getAllNotices));
 
