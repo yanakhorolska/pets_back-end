@@ -7,12 +7,6 @@ const { ctrlWrapper } = require("../../helpers");
 const { addNoticeSchema } = require("../../models/noticeModel");
 const { validation, isValidId, authentificate } = require("../../middlewares");
 
-router.get("/", ctrlWrapper(ctrl.getAllNotices));
-
-router
-  // отримання одного оголошення
-  .get("/:noticeId", isValidId("noticeId"), ctrlWrapper(ctrl.getNoticeById));
-
 router
   // отримання оголошень по категоріям
   .get("/category/:category", ctrlWrapper(ctrl.getNoticesByCategory))
@@ -30,7 +24,7 @@ router //
 
 router
   // видалення оголошення авторизованого користувача створеного цим же користувачем
-  .delete("/myNotices/:noticeId", authentificate, isValidId("noticeId"));
+  .delete("/myNotices/:noticeId", authentificate); //, isValidId("noticeId"));
 
 router
   // отримання оголошень авторизованого користувача доданих ним же в обрані
@@ -41,5 +35,11 @@ router
   .post("/favorites/:noticeId", authentificate, isValidId("noticeId"))
   // видалення оголошення авторизованого користувача доданих цим же до обраних
   .delete("/favorites/:noticeId", authentificate, isValidId("noticeId"));
+
+router
+  // отримання одного оголошення
+  .get("/:noticeId", isValidId("noticeId"), ctrlWrapper(ctrl.getNoticeById));
+
+router.get("/", ctrlWrapper(ctrl.getAllNotices));
 
 module.exports = router;
