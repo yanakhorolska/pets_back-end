@@ -1,4 +1,4 @@
-const { BadRequest } = require("http-errors");
+const { BadRequest } = require('http-errors') 
 
 const validation = (schema, options = {}) => {
   return (req, _, next) => {
