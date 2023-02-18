@@ -6,6 +6,8 @@ const { ctrlWrapper } = require("../../helpers");
 
 const { authentificate, validation, upload } = require("../../middlewares");
 
+const { schemas, customMessage } = require("../../models/userModel")
+
 const router = Router();
 
 router
@@ -13,7 +15,7 @@ router
   .get("/pets", authentificate, ctrlWrapper(ctrl.userPets))
   .get("/notices", authentificate, ctrlWrapper(ctrl.userNotices))
 
-  .patch("/update", authentificate, ctrlWrapper( ctrl.updateFilds))
+  .patch("/update", authentificate, validation(schemas.updateSchema, customMessage.put), ctrlWrapper( ctrl.updateFilds))
   .patch("/avatars", authentificate, upload.single("avatar"), ctrlWrapper(ctrl.updateAvatar))
 
 module.exports = router

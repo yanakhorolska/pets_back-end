@@ -5,9 +5,12 @@ const { notices: ctrl } = require("../../controllers");
 const { ctrlWrapper } = require("../../helpers");
 
 const { addNoticeSchema } = require("../../models/noticeModel");
-const { validation, isValidId } = require("../../middlewares");
-
-router.get("/", ctrlWrapper(ctrl.getAllNotices));
+const {
+  validation,
+  isValidId,
+  authentificate,
+  upload,
+} = require("../../middlewares");
 
 router
   // отримання оголошень по категоріям
@@ -15,26 +18,44 @@ router
   // додавання оголошень відповідно до обраної категорії
   .post(
     "/category/:category",
+    authentificate,
     validation(addNoticeSchema),
     ctrlWrapper(ctrl.createNotice)
   );
 
-router
-  // отримання одного оголошення
-  .get("/:noticeId", isValidId, ctrlWrapper(ctrl.getNoticeById));
-
 router //
   // отримання оголошень авторизованого кристувача створених цим же користувачем
-  .get("/myNotices")
+  .get("/myNotices", authentificate, ctrl.getAllUsersNotices);
+
+router
   // видалення оголошення авторизованого користувача створеного цим же користувачем
-  .delete("/myNotices/:noticeId", isValidId);
+  .delete(
+    "/myNotices/:noticeId",
+    authentificate,
+    isValidId("noticeId"),
+    ctrlWrapper(ctrl.deleteNoticeById)
+  );
 
 router
   // отримання оголошень авторизованого користувача доданих ним же в обрані
-  .get("/favorites")
+  .get("/favorites", authentificate);
+
+router
   // додавання оголошення авторизованого користувача до обраних
-  .post("/favorites/:noticeId", isValidId)
+  .post("/favorites/:noticeId", authentificate, isValidId("noticeId"))
   // видалення оголошення авторизованого користувача доданих цим же до обраних
-  .delete("/favorites/:noticeId", isValidId);
+  .delete("/favorites/:noticeId", authentificate, isValidId("noticeId"));
+
+router
+  // отримання одного оголошення
+  .get("/:noticeId", isValidId("noticeId"), ctrlWrapper(ctrl.getNoticeById))
+  .patch(
+    "/:noticeId/imageUrl",
+    isValidId("noticeId"),
+    upload.single("notice"),
+    ctrl.updateNoticeImage
+  );
+
+router.get("/", ctrlWrapper(ctrl.getAllNotices));
 
 module.exports = router;
