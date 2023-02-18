@@ -10,21 +10,14 @@ const { authentificate, validation, isValidId, upload } = require("../../middlew
 const router = Router()
 
 router
-    .get("/", authentificate, ctrlWrapper(ctrl.getAll))
-    .post("/", authentificate, validation(schemas.addSchema, customMessage.post), ctrlWrapper(ctrl.addPet))
+  .get("/", authentificate, ctrlWrapper(ctrl.getAll))
+  .post("/", authentificate, validation(schemas.addSchema, customMessage.post), ctrlWrapper(ctrl.addPet))
 
-    .patch("/:petId/avatars", authentificate, upload.single("avatar"), isValidId("petId"), ctrlWrapper(ctrl.updateAvatar))
+  .patch("/:petId/avatars", authentificate, upload.single("avatar"), isValidId("petId"), ctrlWrapper(ctrl.updateAvatar))
 
-    .get("/:petId", authentificate, isValidId("petId"), ctrlWrapper(ctrl.getByID))
-    // .put("/:petId", authentificate, isValidId("petId"), )
-    
-    .delete(":/petId", authentificate, isValidId("petId"), ctrlWrapper(ctrl.deletePet))
-
-    // #features
-    // .get("/kind", ctrlWrapper(ctrl.getAllKind))
-    // .post("/kind", ctrlWrapper(ctrl.addKind))
+  .get("/:petId", authentificate, isValidId("petId"), ctrlWrapper(ctrl.getByID))
+  .put("/:petId", authentificate, validation(schemas.addSchema, customMessage.put), isValidId("petId"), ctrlWrapper(ctrl.up))
   
-    // .get("/breed", ctrlWrapper(ctrl.getAllBreedOfKind))
-    // .post("/breed", ctrlWrapper(ctrl.addBreed))
+  .delete(":/petId", authentificate, isValidId("petId"), ctrlWrapper(ctrl.deletePet))
 
 module.exports = router

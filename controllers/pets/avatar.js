@@ -14,18 +14,18 @@ const getBufferFromFile = async (pathToFile) => {
 const getTempLoad = async (fileToUpload) =>{
   const {path, buffer} = fileToUpload;
 
-  if (!!!path) {
+  if (!path) {
     return buffer
   }
   
-  return path.buffer //await getBufferFromFile(path);
+  return await getBufferFromFile(path);
 }
 
 const updateAvatar = async (req, res, next) => {
-  
-  const tempUpload = await getTempLoad(req.file);
+  console.log("updateAvatar");
   const {_id: owner} = req.user;
-  const { petId } = req.params
+  const { petId } = req.params;
+  const tempUpload = await getTempLoad(req.file);
 
   try {
     const avatarURL = await cloudinaryUpload(tempUpload, petId, "pets")
