@@ -82,7 +82,7 @@ const addNoticeSchema = Joi.object({
   sex: Joi.string().valid("male", "female").required(),
   location: Joi.string().required(),
   price: Joi.number().min(0).max(100000),
-  imageUrl: Joi.string().allow(null),
+  imageUrl: Joi.string().min(0).allow(null),
   comment: Joi.string().max(200).allow(null),
 }).required();
 
