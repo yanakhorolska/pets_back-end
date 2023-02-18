@@ -50,7 +50,7 @@ const userSchema = new Schema(
     avatarURL: {
       type: String
     },
-    friend: [ 
+    friends: [ 
       {
       type: Schema.Types.ObjectId,
       ref:"user"
@@ -80,8 +80,6 @@ const userSchema = new Schema(
 
 userSchema.post("save", handleValidationErrors);
 
-const userMessage = { messages: {'any.required': "missing fields"} };
-
 const registerSchema = Joi.object({
   email: Joi.string().email({ tlds: false }).required(),
   password: Joi.string().alphanum().min(7).max(32).required(),
@@ -106,6 +104,11 @@ const updateSchema = Joi.object({
 
 const schemas = { registerSchema, loginSchema, updateSchema }
 
+const customMessage = {
+  post: { messages: {'any.required': "missing required fields"} },
+  put: { messages: {'any.required': "missing fields"} }
+} 
+
 const User = model("user", userSchema);
 
-module.exports = { User, schemas }
+module.exports = { User, schemas, customMessage }

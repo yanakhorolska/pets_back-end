@@ -1,8 +1,5 @@
 const { User } = require("../../models/userModel");
 const { Unauthorized } = require("http-errors");
-// const jwt = require("jsonwebtoken");
-
-// const { SECRET_KEY } = process.env
 
 async function login(req, res) {
     const { email, password } = req.body;
@@ -13,10 +10,12 @@ async function login(req, res) {
     throw Unauthorized("Email or password is not valid");
   }
 
-  storedUser.isValidPassword(password)
+  if (!storedUser.isValidPassword(password)) {
+    throw Unauthorized("Email or password is not valid");
+  }
 
-  const token = storedUser.getToken()
-  await User.findByIdAndUpdate(storedUser._id, { token });
+  const token = storedUser.getToken();
+
   return res.json({
     token,
     user: {
