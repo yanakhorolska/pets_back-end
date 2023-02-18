@@ -17,7 +17,7 @@ async function getNews(req, res) {
       return res.status(200).json(filteredNews);
     }
     const news = await News.find({});
-    return res.status(400).json(news);
+    return res.status(200).json(news);
   } catch (error) {
     console.log(error);
     throw BadRequest();
