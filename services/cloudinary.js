@@ -41,11 +41,11 @@ const cloudinaryUpload = async (imagePath, public_id, path) => {
     //   Crop: 'fill'
     // });
   try {
-    const resultUpload = await upload(); 
+    const resultUpload = await upload();
     return resultUpload.secure_url;
   } catch (error) {
     console.log("cloudinaryUpload", error);
-    throw error;
+    return error;
   }
 };
 

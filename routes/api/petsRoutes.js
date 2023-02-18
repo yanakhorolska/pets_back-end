@@ -5,18 +5,20 @@ const { pets: ctrl } = require("../../controllers");
 
 const { ctrlWrapper } = require("../../helpers");
 
-const { authentificate, validation, isValidId } = require("../../middlewares");
+const { authentificate, validation, isValidId, upload } = require("../../middlewares");
 
 const router = Router()
 
 router
-    //.get("/", authentificate, ctrlWrapper(ctrl.getAll))
-    .post("/", authentificate, validation(schemas.addSchema, customMessage), ctrlWrapper(ctrl.addPet))
+    .get("/", authentificate, ctrlWrapper(ctrl.getAll))
+    .post("/", authentificate, validation(schemas.addSchema, customMessage.post), ctrlWrapper(ctrl.addPet))
+
+    .patch("/:petId/avatars", authentificate, upload.single("avatar"), isValidId("petId"), ctrlWrapper(ctrl.updateAvatar))
 
     .get("/:petId", authentificate, isValidId("petId"), ctrlWrapper(ctrl.getByID))
     // .put("/:petId", authentificate, isValidId("petId"), )
     
-    // .delete(":/petId", authentificate, isValidId("petId"), ctrlWrapper(ctrl.deletePet))
+    .delete(":/petId", authentificate, isValidId("petId"), ctrlWrapper(ctrl.deletePet))
 
     // #features
     // .get("/kind", ctrlWrapper(ctrl.getAllKind))

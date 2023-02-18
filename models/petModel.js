@@ -7,35 +7,37 @@ const Joi = require("joi")
 // const sex = ["male", "female"]
 // const defaultSex = sex[0];
 
-const kindSchema = new Schema (
-    {
-      name: {
-        type: String, 
-        required: [true, "name is required"],
-      }
-    },
-    {
-      versionKey: false,
-      timestamps: true,
-    }
-  );
+const { PETS_DEFAULT_AVATAR : defaultAvatarURL = "" }  = process.env
+
+// const kindSchema = new Schema (
+//   {
+//     name: {
+//       type: String, 
+//       required: [true, "name is required"],
+//     }
+//   },
+//   {
+//     versionKey: false,
+//     timestamps: true,
+//   }
+// );
   
-  const breedSchema = new Schema(
-    {
-      name: { 
-        type: String, 
-        required: [true, "name is required"],
-      },
-      owner: {
-        type: Schema.Types.ObjectId,
-        ref: "kind",
-      },
-    },
-    {
-      versionKey: false,
-      timestamps: true,
-    }
-  );
+// const breedSchema = new Schema(
+//   {
+//     name: { 
+//       type: String, 
+//       required: [true, "name is required"],
+//     },
+//     owner: {
+//       type: Schema.Types.ObjectId,
+//       ref: "kind",
+//     },
+//   },
+//   {
+//     versionKey: false,
+//     timestamps: true,
+//   }
+// );
 
 const petSchema = new Schema(
   {
@@ -65,6 +67,7 @@ const petSchema = new Schema(
     birthday: Date,
     avatarURL: {
       type: String,
+      default: defaultAvatarURL
     },
     imagesURL: [String],
     сomment: String,
@@ -82,28 +85,30 @@ const petSchema = new Schema(
 
 petSchema.post("save", handleValidationErrors)
 
-const petsMessage = { messages: {'any.required': "missing fields"} };
-
 const addSchema = Joi.object({
     nickname: Joi.string().min(2).max(16).required(),
-    birthday: Joi.date().format('YYYY-MM-DD').utc().required(),
+    birthday: Joi.date().format('YYYY-MM-DD').utc(),
     // breed: Joi.object().keys({
     //     name : Joi.string().min(2).max(16).required(),
     //     }
     // ).required(),
-    breed: Joi.string().min(2).max(16).required(),
-    comment: Joi.string().min(8).max(120).required(),
+    breed: Joi.string().min(2).max(16),
+    comment: Joi.string().min(8).max(120),
     //sex: Joi.string().valueOf(...sex).default(defaultSex),
   }).required()
 
-const Kind = model("petkind", kindSchema);
-const Breed = model("petbreed", breedSchema)
+// const Kind = model("petkind", kindSchema);
+// const Breed = model("petbreed", breedSchema)
 const Pet = model("pet", petSchema);
 
 const schemas = {addSchema}
 
+const customMessage = {
+  post: { messages: {'any.required': "missing required fields"} },
+  put: { messages: {'any.required': "missing fields"} },
+}
 
 module.exports = {
     Pet,
     schemas,
-    customMessage: {petsMessage} }
+    customMessage }
