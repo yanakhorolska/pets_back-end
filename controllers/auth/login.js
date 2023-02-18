@@ -2,8 +2,8 @@ const { User } = require("../../models/userModel");
 const { Unauthorized } = require("http-errors");
 
 async function login(req, res) {
-    const { email, password } = req.body;
-    
+  const { email, password } = req.body;
+
   const storedUser = await User.findOne({ email });
 
   if (!storedUser) {
