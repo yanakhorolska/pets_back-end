@@ -1,7 +1,7 @@
 const { Notice } = require("../../models/noticeModel");
 
-const getAllNotices = async (req, res) => {
-  const notices = await Notice.find({}).populate("owner");
+const getAllNotices = async (_, res) => {
+  const notices = await Notice.find({}, "-owner");
   res.json(notices);
 };
 

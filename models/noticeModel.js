@@ -50,10 +50,6 @@ const notice = new Schema(
       type: String,
       default: null,
     },
-    favorite: {
-      type: Boolean,
-      default: false,
-    },
     owner: {
       type: Schema.Types.ObjectId,
       ref: "user",
@@ -79,16 +75,15 @@ const notice = new Schema(
 const Notice = model("notice", notice);
 
 const addNoticeSchema = Joi.object({
-  title: Joi.string().min(2).required(),
-  petName: Joi.string().min(2).required(),
+  title: Joi.string().min(2).max(100).required(),
+  petName: Joi.string().min(2).max(50).required(),
   dateOfBirth: Joi.date().required(),
   breed: Joi.string().required(),
   sex: Joi.string().valid("male", "female").required(),
   location: Joi.string().required(),
-  price: Joi.number(),
-  imageUrl: Joi.string(),
-  comment: Joi.string(),
-  favorite: Joi.boolean(),
+  price: Joi.number().min(0).max(100000),
+  imageUrl: Joi.string().allow(null),
+  comment: Joi.string().max(200).allow(null),
 }).required();
 
 function calculateAge(birthday) {
