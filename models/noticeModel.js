@@ -72,7 +72,19 @@ const notice = new Schema(
   }
 );
 
+const favoriteNoticeSchema = new Schema(
+  {
+    user: { type: Schema.Types.ObjectId, ref: "user" },
+    notice: { type: Schema.Types.ObjectId, ref: "notice" },
+  },
+  {
+    versionKey: false,
+    timestamps: true,
+  }
+);
+
 const Notice = model("notice", notice);
+const FavoriteNotice = model("favoritenotice", favoriteNoticeSchema);
 
 const addNoticeSchema = Joi.object({
   title: Joi.string().min(2).max(100).required(),
@@ -93,5 +105,6 @@ function calculateAge(birthday) {
 
 module.exports = {
   Notice,
+  FavoriteNotice,
   addNoticeSchema,
 };
