@@ -24,16 +24,11 @@ const updateNoticeImage = async (req, res) => {
 
   const tempUpload = await getTempLoad(req.file);
 
-  let imageURL = null;
-
   try {
-    imageURL = await cloudinaryUpload(tempUpload, noticeId, "notices");
-    console.log(imageURL);
-    const result = await Notice.findByIdAndUpdate(noticeId, { imageURL });
-    console.log(result);
-    res.status(200).json(result);
+    const imageUrl = await cloudinaryUpload(tempUpload, noticeId, "notices");
+    await Notice.findByIdAndUpdate(noticeId, { imageUrl });
+    res.json({ imageUrl });
   } catch (error) {
-    console.log(error.message);
     InternalServerError(error.message);
   }
 };

@@ -50,7 +50,7 @@ router
   // отримання одного оголошення
   .get("/:noticeId", isValidId("noticeId"), ctrlWrapper(ctrl.getNoticeById))
   .patch(
-    "/:noticeId",
+    "/:noticeId/imageUrl",
     isValidId("noticeId"),
     upload.single("notice"),
     ctrl.updateNoticeImage
