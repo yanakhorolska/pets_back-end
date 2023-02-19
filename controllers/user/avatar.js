@@ -4,13 +4,10 @@ const { cloudinaryUpload } = require('../../services')
 const updateAvatar = async (req, res, next) => {
   const {_id: id} = req.user;
 
-  try {
-    const avatarURL = await cloudinaryUpload(req.file, id, "avatars")
-    await User.findByIdAndUpdate(id, {avatarURL});
-    res.json({avatarURL});
-  } catch (error) {
-    throw error; //!!!
-  }
+  const avatarURL = await cloudinaryUpload(req.file, id, "avatars")
+  await User.findByIdAndUpdate(id, {avatarURL});
+  res.json({avatarURL});
+
 }
 
 module.exports = updateAvatar
