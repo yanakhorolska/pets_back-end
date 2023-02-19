@@ -11,7 +11,7 @@ const { authentificate, validation, isValidId, upload } = require("../../middlew
 const router = Router()
 
 router
-  .get("/", authentificate, ctrlWrapper(ctrl.getAll))
+  .get("/", authentificate, ctrlWrapper(ctrl.getAll)) // TEMP FOR TEST
   .post("/", authentificate, upload.single("avatar"), validation(schemas.addSchema, customMessage.post), ctrlWrapper(ctrl.addPet))
 
   .patch("/:petId/avatars", authentificate, isValidId("petId"), upload.single("avatar"), ctrlWrapper(ctrl.updateAvatar))
