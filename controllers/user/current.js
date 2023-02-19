@@ -1,10 +1,63 @@
 const { User } = require('../../models/userModel');
-// const { Pet }  = require('../../models/petModel')
 
 const current = async (req, res) => {
-    const {name, birthday, city, email, friend} = req.user;
-
-    res.json({status: "sucsses", data: {name, birthday, email, city, friend}})
+  const {name, birthday, city, email, friend} = req.user;
+  res.json({status: "sucsses", data: {name, birthday, email, city, friend}})
 }
+
+// #alternative
+// const current = async (req, res) => {
+//   const { _id: id } = req.user;
+
+//   const result = await User.findById(id, "-_id -password -createdAt -updatedAt -token -verify")
+
+//   res.json({status: "sucsses", data: result})
+// }
+
+// #alternative add Pets user
+// const current = async (req, res) => {
+//   const { _id: id } = req.user;
+
+//   const pipieline = [
+//     {
+//       $match: {
+//         _id: id,
+//       },
+//     },
+//     {
+//       $lookup: {
+//         from: "pets",
+//         let: {
+//           owner: "$_id",
+//         },
+//         pipeline: [
+//           {
+//             $match: {
+//               $expr: {
+//                 $eq: ["$owner", "$$owner"],
+//               },
+//             },
+//           },
+//           {
+//             $unset: ["owner", "createdAt", "updatedAt"],
+//           },
+//           {
+//             $addFields: {
+//               id: "$_id",
+//             },
+//           },
+//         ],
+//         as: "pets",
+//       },
+//     },
+//     {
+//       $unset: ["_id", "password", "createdAt", "updatedAt", "token", "verify"],
+//     },
+//   ];
+
+//   const result = await User.aggregate(pipieline);
+
+//   res.json({ status: "sucsses", data: result });
+// };
 
 module.exports = current
