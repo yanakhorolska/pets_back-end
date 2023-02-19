@@ -7,11 +7,9 @@ const getAll = async (req, res) => {
   const skip = (page - 1) * limit;
   const options = { skip, limit: Number(limit), }
 
-  console.log(options);
-
   const query = {}
 
-  Pet.find(query, "-imagesURL -createdAt -updatedAt", options,)
+  Pet.find(query, "-owner -imagesURL -createdAt -updatedAt", options,)
     .exec((err, result) => {
       if (err) {
         return res.json(err);

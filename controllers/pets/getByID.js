@@ -2,11 +2,10 @@ const { Pet } = require('../../models/petModel')
 const { NotFound } = require('http-errors')
 
 const getById = async (req, res) => {
-  console.log("deletePet");
   const { _id: owner } = req.user;
   const { petId } = req.params;
 
-  const result = await Pet.findById(petId).findOne({owner});
+  const result = await Pet.findById(petId, "-owner -imagesURL -createdAt -updatedAt").findOne({owner});
 
   if (!result) 
     throw NotFound("Not found")

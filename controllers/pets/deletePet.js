@@ -1,19 +1,20 @@
 
-const { Pet } = require('../../models/petModel');
+const { Pet } = require('../../models/petModel')
 const { NotFound } = require('http-errors')
+const { cloudinaryDelete } = require('../../services')
 
 const deletePet = async (req, res) => {
-
-  console.log("deletePet");
   const { _id: owner } = req.user;
-  const { petId } = req.params
+  const { petId } = req.params;
 
   const result = await Pet.findByIdAndRemove(petId, {owner});
 
   if (!result ) 
-    throw NotFound
+    throw NotFound(`Not find pet with ID: ${petId}`)
 
-  res.json({ message : "pet deleted"})
+  await cloudinaryDelete("pets", petId);
+
+  res.json({ message : "pet deleted", id: petId})
 }
 
 module.exports = deletePet

@@ -1,13 +1,19 @@
-const { Pet } = require('../../models/petModel');
+const { Pet } = require("../../models/petModel");
+const { cloudinaryUpload } = require("../../services");
 
 const addPet = async (req, res) => {
-    console.log("addPet");
-    const { _id: id} = req.user;
+  const { _id: id } = req.user;
 
-    const newPet = new Pet({owner: id, ...req.body});
-    await newPet.save();
+  const newPet = new Pet({ owner: id, ...req.body });
+  if (req.file) {
+    const avatarURL = await cloudinaryUpload(req.file, newPet._id, "pets");
+    newPet.avatarURL = avatarURL;
+  }
+  await newPet.save();
 
-    res.status(201).json({status: "sucsess", data: newPet})
-}
+  const result = await Pet.findById(newPet._id, "-owner -imagesURL -createdAt -updatedAt")
 
-module.exports = addPet
+  res.status(201).json({ status: "sucsess", data: result});
+};
+
+module.exports = addPet;

@@ -1,4 +1,5 @@
 const { Router } = require("express");
+const bo = require('body-parser')
 const { schemas, customMessage } = require('../../models/petModel')
 
 const { pets: ctrl } = require("../../controllers");
@@ -11,13 +12,13 @@ const router = Router()
 
 router
   .get("/", authentificate, ctrlWrapper(ctrl.getAll))
-  .post("/", authentificate, validation(schemas.addSchema, customMessage.post), ctrlWrapper(ctrl.addPet))
+  .post("/", authentificate, upload.single("avatar"), validation(schemas.addSchema, customMessage.post), ctrlWrapper(ctrl.addPet))
 
-  .patch("/:petId/avatars", authentificate, upload.single("avatar"), isValidId("petId"), ctrlWrapper(ctrl.updateAvatar))
+  .patch("/:petId/avatars", authentificate, isValidId("petId"), upload.single("avatar"), ctrlWrapper(ctrl.updateAvatar))
 
   .get("/:petId", authentificate, isValidId("petId"), ctrlWrapper(ctrl.getByID))
   .put("/:petId", authentificate, validation(schemas.addSchema, customMessage.put), isValidId("petId"), ctrlWrapper(ctrl.up))
-  
-  .delete(":/petId", authentificate, isValidId("petId"), ctrlWrapper(ctrl.deletePet))
+
+  .delete("/:petId", authentificate, isValidId("petId"), ctrlWrapper(ctrl.deletePet))
 
 module.exports = router
