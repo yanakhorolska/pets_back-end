@@ -8,7 +8,7 @@ const { ctrlWrapper } = require("../../helpers");
 
 const { authentificate, validation, isValidId, upload } = require("../../middlewares");
 
-const router = Router()
+const router = Router();
 
 router
   .get("/", authentificate, ctrlWrapper(ctrl.getAll)) // TEMP FOR TEST
