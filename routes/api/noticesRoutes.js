@@ -5,7 +5,12 @@ const { notices: ctrl } = require("../../controllers");
 const { ctrlWrapper } = require("../../helpers");
 
 const { addNoticeSchema } = require("../../models/noticeModel");
-const { validation, isValidId, authentificate } = require("../../middlewares");
+const {
+  validation,
+  isValidId,
+  authentificate,
+  upload,
+} = require("../../middlewares");
 
 router
   // отримання оголошень по категоріям
@@ -24,7 +29,12 @@ router //
 
 router
   // видалення оголошення авторизованого користувача створеного цим же користувачем
-  .delete("/myNotices/:noticeId", authentificate); //, isValidId("noticeId"));
+  .delete(
+    "/myNotices/:noticeId",
+    authentificate,
+    isValidId("noticeId"),
+    ctrlWrapper(ctrl.deleteNoticeById)
+  );
 
 router
   // отримання оголошень авторизованого користувача доданих ним же в обрані
@@ -38,7 +48,13 @@ router
 
 router
   // отримання одного оголошення
-  .get("/:noticeId", isValidId("noticeId"), ctrlWrapper(ctrl.getNoticeById));
+  .get("/:noticeId", isValidId("noticeId"), ctrlWrapper(ctrl.getNoticeById))
+  .patch(
+    "/:noticeId/imageUrl",
+    isValidId("noticeId"),
+    upload.single("notice"),
+    ctrl.updateNoticeImage
+  );
 
 router.get("/", ctrlWrapper(ctrl.getAllNotices));
 
