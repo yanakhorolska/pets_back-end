@@ -1,8 +1,8 @@
 const { User } = require('../../models/userModel');
 
 const current = async (req, res) => {
-  const {name, birthday, email, city, phone, avatarUrl, friends} = req.user;
-  res.json({status: "sucsses", data: {name, birthday, email, city, phone ,avatarUrl, friends}})
+  const {name, birthday, email, city, phone, avatarUrl} = req.user;
+  res.json({status: "sucsses", data: {name, birthday, email, city, phone, avatarUrl}})
 }
 
 // #alternative
