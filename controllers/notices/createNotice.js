@@ -18,7 +18,9 @@ const createNotice = async (req, res) => {
   }
   await newNotice.save();
 
-  const result = await Notice.findById(newNotice._id, "-owner -createAt -updateAt")
+  const result = await Notice.findById(newNotice._id, "-owner -createdAt -updatedAt")
+
+  console.log(result);
 
   res.status(201).json({status: "success", data: result});
 };
