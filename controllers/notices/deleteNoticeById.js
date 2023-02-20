@@ -1,5 +1,6 @@
-const { Notice } = require("../../models/noticeModel");
+const { Notice, FavoriteNotice } = require("../../models/noticeModel");
 const { NotFound } = require("http-errors");
+const { cloudinaryDelete } = require("../../services");
 
 const deleteNoticeById = async (req, res) => {
   const { noticeId } = req.params;
@@ -8,6 +9,8 @@ const deleteNoticeById = async (req, res) => {
     _id: noticeId,
   });
   if (deletedCount) {
+    await cloudinaryDelete("notices", noticeId);
+    await FavoriteNotice.deleteMany({ notice: noticeId });
     res.json({
       message: "notice deleted",
       id: noticeId,
