@@ -2,15 +2,12 @@ const { Notice } = require("../../models/noticeModel");
 
 const getNoticesByCategory = async (req, res) => {
   const { category } = req.params;
-  const user = req.user;
+  const user = req?.user;
 
   if (!user) {
-    const notices = await Notice.find({ category }).populate(
-      "owner",
-      "_id name email"
-    );
+    const notices = await Notice.find({ category }, "-owner -createdAt -updatedAt");
 
-    res.json(notices);
+    return res.json({status: "success", data : notices});
   }
 
   const pipeline = [
@@ -51,6 +48,9 @@ const getNoticesByCategory = async (req, res) => {
           },
         },
       },
+    },
+    {
+      $unset: ["owner", "createdAt", "updatedAt"],
     },
   ];
 
