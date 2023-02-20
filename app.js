@@ -2,7 +2,6 @@ const express = require("express");
 const app = express();
 const logger = require("morgan");
 const cors = require("cors");
-const qs = require("qs");
 
 require("dotenv").config();
 
@@ -14,10 +13,6 @@ const newsRouter = require("./routes/api/newsRoutes");
 const sponsorsRouter = require('./routes/api/sponsorsRoutes');
 
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
-
-app.set("query parser", function (str) {
-  return qs.parse(str, { ignoreQueryPrefix: true });
-});
 
 app.use(logger(formatsLogger));
 app.use(cors());
