@@ -1,10 +1,10 @@
-const getAll = require('./getAll')
-const getById = require('./getById')
+const getAll = require('./getAll');
+const getById = require('./getById');
 
-const addPet = require('./addPet')
-const deletePet = require('./deletePet')
+const addPet = require('./addPet');
+const deletePet = require('./deletePet');
 
-const updateById = require('./updateById')
-const updateAvatar = require('./avatar')
+const updateById = require('./updateById');
+const updateAvatar = require('./avatar');
 
 module.exports = { getAll, getById, addPet, updateAvatar, updateById, deletePet }
