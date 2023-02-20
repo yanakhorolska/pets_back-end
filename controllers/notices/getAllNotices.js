@@ -1,7 +1,7 @@
 const { Notice } = require("../../models/noticeModel");
 
 const getAllNotices = async (_, res) => {
-  const notices = await Notice.find({}, "-owner");
+  const notices = await Notice.find({}, "-owner -createdAt -updatedAt");
   res.json({status: "success", data: notices});
 };
 
