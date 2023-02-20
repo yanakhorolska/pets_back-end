@@ -15,7 +15,7 @@ router
 
   .patch("/:petId/avatars", authentificate, isValidId("petId"), upload.single("avatar"), ctrlWrapper(ctrl.updateAvatar))
 
-  .get("/:petId", authentificate, isValidId("petId"), ctrlWrapper(ctrl.getByID))
+  .get("/:petId", authentificate, isValidId("petId"), ctrlWrapper(ctrl.getById))
   .patch("/:petId", authentificate, isValidId("petId"), validation(schemas.updateSchema, customMessage.patch), ctrlWrapper(ctrl.updateById))
 
   .delete("/:petId", authentificate, isValidId("petId"), ctrlWrapper(ctrl.deletePet))
