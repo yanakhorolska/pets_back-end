@@ -94,7 +94,7 @@ const addNoticeSchema = Joi.object({
   petName: Joi.string().min(2).max(50).required(),
   dateOfBirth: Joi.date().format('YYYY-MM-DD').utc().required(),
   breed: Joi.string().required(),
-  sex: Joi.string().valid("male", "female").required(),
+  sex: Joi.string().valid(...SEX).default(SEX[0]),
   location: Joi.string().required(),
   price: Joi.number().min(0).max(100000),
   comment: Joi.string().max(200).allow(null),
