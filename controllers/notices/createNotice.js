@@ -1,20 +1,24 @@
 const { Notice } = require("../../models/noticeModel");
-const { InternalServerError } = require("http-errors");
+// const { InternalServerError } = require("http-errors");
+const { cloudinaryUpload } = require("../../services");
 
 const createNotice = async (req, res) => {
   const user = req.user;
   const { category } = req.params;
 
-  const notice = await Notice.create({
+  const newNotice = new Notice({
     ...req.body,
     category,
     owner: user._id,
   });
-  if (!notice) {
-    throw InternalServerError("Can not create notice!");
-  }
 
-  res.status(201).json(notice);
+  if (req.file) {
+    const imageUrl = await cloudinaryUpload(req.file, newNotice._id, "notices");
+    newNotice.imageUrl = imageUrl;
+  }
+  await newNotice.save();
+
+  res.status(201).json(newNotice);
 };
 
 module.exports = createNotice;

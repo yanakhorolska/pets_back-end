@@ -19,6 +19,7 @@ router
   .post(
     "/category/:category",
     authentificate,
+    upload.single("imageUrl"),
     validation(addNoticeSchema),
     ctrlWrapper(ctrl.createNotice)
   );
