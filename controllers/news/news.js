@@ -11,9 +11,9 @@ async function getNews(req, res) {
       ],
     });
     if (filteredNews.length === 0) {
-      res.json({status: "success", data: { message: "No news found" } });
+      return res.json({status: "success", data: { message: "No news found" } });
     }
-    res.json({status: "success", data: filteredNews});
+    return res.json({status: "success", data: filteredNews});
   }
 
   const news = await News.find({});
