@@ -1,27 +1,29 @@
-const { Schema, model } = require("mongoose")
+const { Schema, model } = require("mongoose");
 const { handleValidationErrors } = require("../helpers");
 
 const Joi = require("joi");
 
-const bcrypt = require('bcryptjs');
+const { USER_DEFAULT_AVATAR: defaultAvatarURL = "" } = process.env;
+
+const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-const { SECRET_KEY } = process.env
+const { SECRET_KEY } = process.env;
 
 const userSchema = new Schema(
   {
     name: {
       type: String,
-      required: true
+      required: true,
     },
     region: {
       type: String,
-    }, 
+    },
     city: {
       type: String,
     },
-    birthday:{
-      type: Date
+    birthday: {
+      type: Date,
     },
     phone: {
       type: String,
@@ -37,7 +39,6 @@ const userSchema = new Schema(
     },
     confirmPassword: {
       type: String,
-      
     },
     token: {
       type: String,
@@ -48,14 +49,15 @@ const userSchema = new Schema(
       default: false,
     },
     avatarURL: {
-      type: String
+      type: String,
+      default: defaultAvatarURL,
     },
-    friends: [ 
+    friends: [
       {
-      type: Schema.Types.ObjectId,
-      ref:"user"
-      }
-    ]
+        type: Schema.Types.ObjectId,
+        ref: "user",
+      },
+    ],
   },
   {
     versionKey: false,
@@ -83,32 +85,37 @@ userSchema.post("save", handleValidationErrors);
 const registerSchema = Joi.object({
   email: Joi.string().email({ tlds: false }).required(),
   password: Joi.string().alphanum().min(7).max(32).required(),
-  confirmPassword: Joi.ref('password'),
-  name: Joi.string().min(3).required().pattern(/[A-Za-z]+/),
-  city: Joi.string().pattern(/[A-Za-z]+, [A-Za-z]+/),
+  confirmPassword: Joi.ref("password"),
+  name: Joi.string()
+    .min(3)
+    .pattern(/[A-Za-zА-Яа-я]+/)
+    .required(),
+  city: Joi.string().pattern(/[A-Za-zА-Яа-я]+, [A-Za-zА-Яа-я]+/),
   phone: Joi.string().pattern(/^\+380\d{9}$/),
-}).required()
+}).required();
 
 const loginSchema = Joi.object({
-    email: Joi.string().email({tlds: false}).required(),
-    password: Joi.string().alphanum().min(7).max(32).required(),
-}).required()
+  email: Joi.string().email({ tlds: false }).required(),
+  password: Joi.string().alphanum().min(7).max(32).required(),
+}).required();
 
 const updateSchema = Joi.object({
-  name: Joi.string().min(1).pattern(/[A-Za-z]+/),
+  name: Joi.string()
+    .min(1)
+    .pattern(/[A-Za-zА-Яа-я]+/),
   email: Joi.string().email({ tlds: false }).min(1),
   birthday: Joi.date(),
   phone: Joi.string().pattern(/^\+380\d{9}$/),
-  city: Joi.string().pattern(/[A-Za-z]+, [A-Za-z]+/),
-}).required()
+  city: Joi.string().pattern(/[[A-Za-zА-Яа-я]]+, [[A-Za-zА-Яа-я]]+/),
+}).required();
 
-const schemas = { registerSchema, loginSchema, updateSchema }
+const schemas = { registerSchema, loginSchema, updateSchema };
 
 const customMessage = {
-  post: { messages: {'any.required': "missing required fields"} },
-  put: { messages: {'any.required': "missing fields"} }
-} 
+  post: { messages: { "any.required": "missing required fields" } },
+  put: { messages: { "any.required": "missing fields" } },
+};
 
 const User = model("user", userSchema);
 
-module.exports = { User, schemas, customMessage }
+module.exports = { User, schemas, customMessage };

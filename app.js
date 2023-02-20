@@ -8,7 +8,7 @@ require("dotenv").config();
 
 const authRouter = require("./routes/api/authRoutes");
 const userRouter = require("./routes/api/userRoutes");
-// const petsRouter = require('./routes/api/petsRoutes')
+const petsRouter = require('./routes/api/petsRoutes');
 const noticesRouter = require("./routes/api/noticesRoutes");
 const newsRouter = require("./routes/api/newsRoutes");
 // const sponsorsRouter = require('./routes/api/sponsorsRoutes');
@@ -28,7 +28,7 @@ app.use(express.static("public"));
 app.use("/api/users", authRouter);
 app.use("/api/users", userRouter);
 
-// app.use("/api/pets", petsRouter)
+app.use("/api/pets", petsRouter)
 app.use("/api/notices", noticesRouter);
 
 app.use("/api/news", newsRouter);
