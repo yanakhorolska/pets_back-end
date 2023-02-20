@@ -71,7 +71,7 @@ const userSchema = new Schema(
       },
       getToken() {
         const payload = { id: this._id };
-        const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "1h" });
+        const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "12h" });
         this.token = token;
         this.save();
         return token;
