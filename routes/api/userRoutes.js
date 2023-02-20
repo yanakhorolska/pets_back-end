@@ -12,7 +12,8 @@ const router = Router();
 
 router
   .get("/current", authentificate, ctrlWrapper(ctrl.currentUser))
-  //.get("/pets", authentificate, ctrlWrapper(ctrl.userPets))
+  .get("/pets", authentificate, ctrlWrapper(ctrl.userPets))
+  .get("/notices", authentificate, ctrlWrapper(ctrl.userNotices))
 
   .patch("/update", authentificate, validation(schemas.updateSchema, customMessage.put), ctrlWrapper( ctrl.updateFilds))
   .patch("/avatars", authentificate, upload.single("avatar"), ctrlWrapper(ctrl.updateAvatar))

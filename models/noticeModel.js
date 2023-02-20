@@ -1,5 +1,6 @@
 const { Schema, model } = require("mongoose");
 const Joi = require("joi");
+const { handleValidationErrors } = require("../helpers");
 
 const NOTICE_CATEGORY = ["lostFound", "inGoodHands", "sell"];
 const SEX = ["male", "female"];
@@ -84,6 +85,8 @@ const favoriteNoticeSchema = new Schema(
 );
 
 const Notice = model("notice", notice);
+notice.post("save", handleValidationErrors);
+
 const FavoriteNotice = model("favoritenotice", favoriteNoticeSchema);
 
 const addNoticeSchema = Joi.object({
