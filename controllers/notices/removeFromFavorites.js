@@ -6,7 +6,7 @@ const removeFromFavorites = async (req, res) => {
 
   await FavoriteNotice.findOneAndDelete({ notice: noticeId, user });
 
-  res.status(204).json({ status: "sucsess" });
+  res.status(204).json({ status: "success" });
 };
 
 module.exports = removeFromFavorites;

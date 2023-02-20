@@ -36,7 +36,7 @@ const getUsersFavoriteNotices = async (req, res) => {
   ];
 
   const notices = await FavoriteNotice.aggregate(pipeline);
-  res.json(notices);
+  res.json({status: "success", data: notices});
 };
 
 module.exports = getUsersFavoriteNotices;

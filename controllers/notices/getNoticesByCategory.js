@@ -55,7 +55,7 @@ const getNoticesByCategory = async (req, res) => {
   ];
 
   const result = await Notice.aggregate(pipeline);
-  res.json(result);
+  res.json({status: "success", data: result});
 };
 
 module.exports = getNoticesByCategory;

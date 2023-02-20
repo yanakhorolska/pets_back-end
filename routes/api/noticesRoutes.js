@@ -1,10 +1,10 @@
-const express = require("express");
-const router = express.Router();
+const { Router } = require("express");
 
 const { notices: ctrl } = require("../../controllers");
 const { ctrlWrapper } = require("../../helpers");
 
 const { addNoticeSchema } = require("../../models/noticeModel");
+
 const {
   validation,
   isValidId,
@@ -12,6 +12,8 @@ const {
   upload,
   checkUser,
 } = require("../../middlewares");
+
+const router = Router();
 
 router
   // отримання оголошень по категоріям

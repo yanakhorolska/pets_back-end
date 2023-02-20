@@ -6,12 +6,25 @@ const updateById = async (req, res) => {
   const { _id: owner } = req.user;
   const { petId } = req.params;
 
-  const result = await Pet.findByIdAndUpdate(petId , req.body, { new: true}, ).findOne({owner})
-  
-  if (!result) 
-    throw NotFound("Not found")
+  const {
+    _id,
+    owner: ownerBody,
+    createdAt,
+    updatedAt,
+    avatarURL,
+    imagesURL,
+    ...fieldtoUpdate
+  } = req.body;
 
-  res.json({ status: "success", data: result})
-}
+  const result = await Pet.findOneAndUpdate(
+    { _id: petId, owner },
+    fieldtoUpdate,
+    { new: true }
+  ).select("-owner -imagesURL -createdAt -updatedAt");
+
+  if (!result) throw NotFound("Not found");
+
+  res.json({ status: "success", data: result });
+};
 
 module.exports = updateById

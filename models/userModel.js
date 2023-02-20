@@ -107,13 +107,13 @@ const updateSchema = Joi.object({
   birthday: Joi.date(),
   phone: Joi.string().pattern(/^\+380\d{9}$/),
   city: Joi.string().pattern(/[[A-Za-zА-Яа-я]]+, [[A-Za-zА-Яа-я]]+/),
-}).required();
+}).min(1);
 
 const schemas = { registerSchema, loginSchema, updateSchema };
 
 const customMessage = {
   post: { messages: { "any.required": "missing required fields" } },
-  put: { messages: { "any.required": "missing fields" } },
+  patch: { messages: { "object.min": "missing fields" } },
 };
 
 const User = model("user", userSchema);

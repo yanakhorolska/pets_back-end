@@ -11,10 +11,10 @@ const deleteNoticeById = async (req, res) => {
   if (deletedCount) {
     await cloudinaryDelete("notices", noticeId);
     await FavoriteNotice.deleteMany({ notice: noticeId });
-    res.json({
+    res.json({status: "success", data :{
       message: "notice deleted",
       id: noticeId,
-    });
+    }});
   } else {
     throw NotFound(`Can not find notice with ID:${noticeId}`);
   }
