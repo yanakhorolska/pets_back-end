@@ -1,5 +1,5 @@
 const getAllNotices = require("./getAllNotices");
-const getNoticeById = require("./getNiticeById");
+const getNoticeById = require("./getNoticeById");
 const createNotice = require("./createNotice");
 const getNoticesByCategory = require("./getNoticesByCategory");
 const getAllUsersNotices = require("./getAllUsersNotices");

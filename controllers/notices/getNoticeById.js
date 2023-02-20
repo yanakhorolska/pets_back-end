@@ -4,7 +4,7 @@ const { NotFound } = require("http-errors");
 const getNoticeById = async (req, res) => {
   const { noticeId } = req.params;
 
-  const notice = await Notice.findById(noticeId).populate(
+  const notice = await Notice.findById(noticeId, ).populate(
     "owner",
     "_id name email"
   );
