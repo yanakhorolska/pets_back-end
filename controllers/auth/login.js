@@ -16,7 +16,7 @@ async function login(req, res) {
 
   const token = storedUser.getToken();
 
-  return res.json({
+  res.json({
     token,
     user: {
         email,
