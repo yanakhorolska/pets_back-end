@@ -12,6 +12,11 @@ const getNoticesByCategory = async (req, res) => {
 
   const pipeline = [
     {
+      $match: {
+        category
+      }
+    },
+    {
       $lookup: {
         from: "favoritenotices",
         let: {
