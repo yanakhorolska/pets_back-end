@@ -14,6 +14,7 @@ async function register(req, res) {
 
   savedUser.setPassword(password);
   await savedUser.save();
+  
   res.status(201).json({
     user: {
       name,

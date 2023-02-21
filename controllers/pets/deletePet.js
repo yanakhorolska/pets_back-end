@@ -14,7 +14,7 @@ const deletePet = async (req, res) => {
 
   await cloudinaryDelete("pets", petId);
 
-  res.json({ message : "pet deleted", id: petId})
+  res.json({ status: "success", data : {message : "pet deleted", id: petId}})
 }
 
 module.exports = deletePet
