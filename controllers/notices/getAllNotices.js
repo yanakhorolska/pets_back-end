@@ -5,7 +5,7 @@ const getAllNotices = async (req, res) => {
 
   if (!user) {
     const notices = await Notice.find({}, "-owner -createdAt -updatedAt")
-    return res.json({status: "success", data: result});
+    return res.json({status: "success", data: notices});
   }
 
   const pipeline = [
