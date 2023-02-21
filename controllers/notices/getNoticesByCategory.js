@@ -54,8 +54,14 @@ const getNoticesByCategory = async (req, res) => {
     },
   ];
 
-  const result = await Notice.aggregate(pipeline);
-  res.json({status: "success", data: result});
+  await Notice.aggregate(pipeline).exec((err, docs) => {
+    const result = docs.map((doc) => {
+      const { owner, ...docData } = Notice.hydrate(doc).toObject();
+      return docData;
+    }); 
+    res.json({status: "success", data: result});
+  });
+  
 };
 
 module.exports = getNoticesByCategory;
