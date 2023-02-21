@@ -75,7 +75,7 @@ notice.virtual('age').get(function() {
 
   return {
     days: ageDate.getUTCDate(),
-    month: ageDate.getUTCMonth(),
+    months: ageDate.getUTCMonth(),
     years: Math.abs(ageDate.getUTCFullYear() - 1970),
   };
 });
