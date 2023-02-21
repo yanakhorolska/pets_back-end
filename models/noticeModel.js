@@ -67,10 +67,17 @@ const notice = new Schema(
 
 notice.virtual('age').get(function() {
   const birthday = this.dateOfBirth
+
   if (!birthday) return null
+
   const ageDifMs = Date.now() - birthday.getTime();
   const ageDate = new Date(ageDifMs);
-  return { days: ageDate.getUTCDate(), month: ageDate.getUTCMonth(), years:  Math.abs(ageDate.getUTCFullYear() - 1970)};
+
+  return {
+    days: ageDate.getUTCDate(),
+    month: ageDate.getUTCMonth(),
+    years: Math.abs(ageDate.getUTCFullYear() - 1970),
+  };
 });
 
 const favoriteNoticeSchema = new Schema(
