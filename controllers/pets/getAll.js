@@ -1,4 +1,5 @@
 const { Pet } = require('../../models/petModel')
+const { InternalServerError } = require("http-errors")
 
 const getAll = async (req, res) => {
   //const {_id : id} = req.user;
@@ -12,13 +13,13 @@ const getAll = async (req, res) => {
   Pet.find(query, "-owner -imagesURL -createdAt -updatedAt", options,)
     .exec((err, result) => {
       if (err) {
-        return res.json(err);
+        return InternalServerError(err.message);
       }
       Pet.estimatedDocumentCount(query).exec((count_error, count) => {
-        if (err) {
-          return res.json(count_error);
+        if (count_error) {
+          return InternalServerError(count_error.error);
         }
-        return res.json({status : "success", pages : {page, total_pages: Math.round(count / limit)}, length: result.length, data : result})
+        return res.json({status : "success", pages : {page, total_pages: Math.ceil(count / limit)}, length: result.length, data : result})
         });
     })
 }
