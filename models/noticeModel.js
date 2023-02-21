@@ -93,7 +93,6 @@ const favoriteNoticeSchema = new Schema(
 
 notice.post("save", handleValidationErrors);
 
-
 const Notice = model("notice", notice);
 const FavoriteNotice = model("favoritenotice", favoriteNoticeSchema);
 
