@@ -1,23 +1,20 @@
-const { Router } = require("express");
+const express = require("express");
+const router = express.Router();
 
 const { notices: ctrl } = require("../../controllers");
 const { ctrlWrapper } = require("../../helpers");
 
 const { addNoticeSchema } = require("../../models/noticeModel");
-
 const {
   validation,
   isValidId,
   authentificate,
   upload,
-  checkUser,
 } = require("../../middlewares");
-
-const router = Router();
 
 router
   // отримання оголошень по категоріям
-  .get("/category/:category", checkUser, ctrlWrapper(ctrl.getNoticesByCategory))
+  .get("/category/:category", ctrlWrapper(ctrl.getNoticesByCategory))
   // додавання оголошень відповідно до обраної категорії
   .post(
     "/category/:category",
@@ -29,7 +26,7 @@ router
 
 router //
   // отримання оголошень авторизованого кристувача створених цим же користувачем
-  .get("/myNotices", authentificate, ctrlWrapper(ctrl.getAllUsersNotices));
+  .get("/myNotices", authentificate, ctrl.getAllUsersNotices);
 
 router
   // видалення оголошення авторизованого користувача створеного цим же користувачем
@@ -42,23 +39,13 @@ router
 
 router
   // отримання оголошень авторизованого користувача доданих ним же в обрані
-  .get("/favorites", authentificate, ctrlWrapper(ctrl.getUsersFavoriteNotices));
+  .get("/favorites", authentificate);
 
 router
   // додавання оголошення авторизованого користувача до обраних
-  .post(
-    "/favorites/:noticeId",
-    authentificate,
-    isValidId("noticeId"),
-    ctrlWrapper(ctrl.addToFavorites)
-  )
+  .post("/favorites/:noticeId", authentificate, isValidId("noticeId"))
   // видалення оголошення авторизованого користувача доданих цим же до обраних
-  .delete(
-    "/favorites/:noticeId",
-    authentificate,
-    isValidId("noticeId"),
-    ctrlWrapper(ctrl.removeFromFavorites)
-  );
+  .delete("/favorites/:noticeId", authentificate, isValidId("noticeId"));
 
 router
   // отримання одного оголошення

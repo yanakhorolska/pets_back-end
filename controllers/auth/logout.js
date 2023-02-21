@@ -5,7 +5,7 @@ async function logout(req, res) {
 
   await User.findByIdAndUpdate(_id, { token: null });
 
-  res.status(204).json();
+  return res.status(204).json();
 }
 
 module.exports = logout;

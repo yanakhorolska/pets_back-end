@@ -1,5 +1,5 @@
 const { Schema, model } = require("mongoose");
-const Joi = require("joi").extend(require('@joi/date'));
+const Joi = require("joi");
 const { handleValidationErrors } = require("../helpers");
 
 const NOTICE_CATEGORY = ["lostFound", "inGoodHands", "sell"];
@@ -92,7 +92,7 @@ const FavoriteNotice = model("favoritenotice", favoriteNoticeSchema);
 const addNoticeSchema = Joi.object({
   title: Joi.string().min(2).max(100).required(),
   petName: Joi.string().min(2).max(50).required(),
-  dateOfBirth: Joi.date().format('YYYY-MM-DD').utc().required(),
+  dateOfBirth: Joi.date().required(),
   breed: Joi.string().required(),
   sex: Joi.string().valid("male", "female").required(),
   location: Joi.string().required(),

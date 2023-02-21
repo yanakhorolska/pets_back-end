@@ -22,10 +22,7 @@ const petSchema = new Schema(
       default: defaultAvatarURL
     },
     imagesURL: [String],
-    comment: {
-      type: String,
-      default: null,
-    },
+    сomment: String,
     owner: {
       type: Schema.Types.ObjectId,
       ref: "user",
@@ -42,18 +39,18 @@ const petSchema = new Schema(
 petSchema.post("save", handleValidationErrors)
 
 const addSchema = Joi.object({
-  nickname: Joi.string().min(2).max(16).required(),
-  birthday: Joi.date().format('YYYY-MM-DD').utc(), 
-  breed: Joi.string().min(2).max(16).required(),
-  comment: Joi.string().min(8).max(120),
-}).required()
-
+    nickname: Joi.string().min(2).max(16).required(),
+    birthday: Joi.date().format('YYYY-MM-DD').utc(), 
+    breed: Joi.string().min(2).max(16).required(),
+    comment: Joi.string().min(8).max(120),
+  }).required()
+  
 const updateSchema = Joi.object({
   nickname: Joi.string().min(2).max(16),
-  birthday: Joi.date().format('YYYY-MM-DD').utc(),
+  birthday: Joi.date().format('YYYY-MM-DD').utc(), 
   breed: Joi.string().min(2).max(16),
   comment: Joi.string().min(8).max(120),
-}).required().min(1)
+}).required()
 
 const Pet = model("pet", petSchema);
 
@@ -61,7 +58,7 @@ const schemas = { addSchema, updateSchema}
 
 const customMessage = {
   post: { messages: {'any.required': "missing required fields"} },
-  patch: { messages: {'object.min': "missing fields"} },
+  put: { messages: {'any.required': "missing fields"} },
 }
 
 module.exports = {

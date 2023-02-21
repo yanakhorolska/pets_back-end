@@ -5,9 +5,6 @@ const getNoticesByCategory = require("./getNoticesByCategory");
 const getAllUsersNotices = require("./getAllUsersNotices");
 const deleteNoticeById = require("./deleteNoticeById");
 const updateNoticeImage = require("./updateNoticeImage");
-const getUsersFavoriteNotices = require("./getUsersFavoriteNotices");
-const addToFavorites = require("./addToFavorites");
-const removeFromFavorites = require("./removeFromFavorites");
 
 module.exports = {
   getAllNotices,
@@ -17,7 +14,4 @@ module.exports = {
   getAllUsersNotices,
   deleteNoticeById,
   updateNoticeImage,
-  getUsersFavoriteNotices,
-  addToFavorites,
-  removeFromFavorites,
 };

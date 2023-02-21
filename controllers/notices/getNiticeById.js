@@ -10,7 +10,7 @@ const getNoticeById = async (req, res) => {
   );
 
   if (notice) {
-    res.json({status: "success", data: notice});
+    res.json(notice);
   } else {
     throw NotFound(`Can not find notice with ID:${noticeId}`);
   }

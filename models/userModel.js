@@ -71,7 +71,7 @@ const userSchema = new Schema(
       },
       getToken() {
         const payload = { id: this._id };
-        const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "12h" });
+        const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "1h" });
         this.token = token;
         this.save();
         return token;
@@ -107,13 +107,13 @@ const updateSchema = Joi.object({
   birthday: Joi.date(),
   phone: Joi.string().pattern(/^\+380\d{9}$/),
   city: Joi.string().pattern(/[[A-Za-zА-Яа-я]]+, [[A-Za-zА-Яа-я]]+/),
-}).min(1);
+}).required();
 
 const schemas = { registerSchema, loginSchema, updateSchema };
 
 const customMessage = {
   post: { messages: { "any.required": "missing required fields" } },
-  patch: { messages: { "object.min": "missing fields" } },
+  put: { messages: { "any.required": "missing fields" } },
 };
 
 const User = model("user", userSchema);

@@ -6,7 +6,7 @@ const updateNoticeImage = async (req, res) => {
 
   const imageUrl = await cloudinaryUpload(req.file, noticeId, "notices");
   await Notice.findByIdAndUpdate(noticeId, { imageUrl });
-  res.json({ status: "success", data: imageUrl });
+  res.json({ imageUrl });
 
 };
 

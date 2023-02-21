@@ -1,5 +1,5 @@
 const getAll = require('./getAll')
-const getById = require('./getById')
+const getByID = require('./getById')
 
 const addPet = require('./addPet')
 const deletePet = require('./deletePet')
@@ -7,4 +7,4 @@ const deletePet = require('./deletePet')
 const updateById = require('./updateById')
 const updateAvatar = require('./avatar')
 
-module.exports = { getAll, getById, addPet, updateAvatar, updateById, deletePet }
+module.exports = { getAll, getByID, addPet, updateAvatar, updateById, deletePet }

@@ -18,7 +18,7 @@ const getAll = async (req, res) => {
         if (err) {
           return res.json(count_error);
         }
-        return res.json({status : "success", pages : {page, total_pages: Math.round(count / limit)}, length: result.length, data : result})
+        return res.json({status : "sucsess", pages : {page, total_pages: Math.round(count / limit)}, length: result.length, data : result})
         });
     })
 }

@@ -18,9 +18,7 @@ const createNotice = async (req, res) => {
   }
   await newNotice.save();
 
-  const result = await Notice.findById(newNotice._id, "-owner -createAt -updateAt")
-
-  res.status(201).json({status: "success", data: result});
+  res.status(201).json(newNotice);
 };
 
 module.exports = createNotice;

@@ -11,7 +11,7 @@ const updateAvatar = async (req, res, next) => {
   try {
     const avatarURL = await cloudinaryUpload(req.file, petId, "pets")
     await Pet.findByIdAndUpdate(petId, { avatarURL }, {owner},);
-    res.json({status: "success", data : avatarURL});
+    res.json({avatarURL});
   } catch (error) {
     next( BadRequest(error.message));
   }

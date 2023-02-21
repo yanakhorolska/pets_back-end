@@ -13,7 +13,7 @@ const addPet = async (req, res) => {
 
   const result = await Pet.findById(newPet._id, "-owner -imagesURL -createdAt -updatedAt")
 
-  res.status(201).json({status: "success", data: result});
+  res.status(201).json({ status: "sucsess", data: result});
 };
 
 module.exports = addPet;
