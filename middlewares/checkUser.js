@@ -8,16 +8,17 @@ async function checkUser(req, _, next) {
   const [type, token] = authHeader.split(" ");
 
   if (type !== "Bearer" && !token) {
-    next();
-  }
+    return next();
+  } 
 
-  const { id } = jwt.verify(token, SECRET_KEY);
-  const user = await User.findById(id);
-  if (user) {
-    req.user = user;
-  }
-
+  try {
+      const { id } = jwt.verify(token, SECRET_KEY);
+      const user = await User.findById(id);
+      if (user) req.user = user;
+  } catch (error) {}
+  
   next();
+
 }
 
 module.exports = checkUser;

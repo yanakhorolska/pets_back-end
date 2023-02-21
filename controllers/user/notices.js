@@ -2,6 +2,7 @@ const { Notice } = require('../../models/noticeModel')
 
 const noticesUser =  async (req, res, next) => {
   const {_id: owner} = req.user
+
   const pipieline = [
     {
       $match: {
@@ -39,15 +40,15 @@ const noticesUser =  async (req, res, next) => {
     },
     {
       $addFields: {
-        id: "$_id",
         favorite: { $convert: { input: { $size: "$favorite" }, to: "bool" } },
       },
     },
   ];
 
-  const result = await Notice.aggregate(pipieline)
-
-  res.json({status: "sucsess", data: result})
+  await Notice.aggregate(pipieline).exec((err, docs) => {
+    const result = docs.map((doc) => Notice.hydrate(doc));
+    res.json({ status: "sucsess", data: result });
+  });
 
 }
 

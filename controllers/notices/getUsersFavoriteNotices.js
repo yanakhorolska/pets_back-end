@@ -1,4 +1,5 @@
-const { FavoriteNotice } = require("../../models/noticeModel");
+const { Notice, FavoriteNotice } = require("../../models/noticeModel");
+
 
 const getUsersFavoriteNotices = async (req, res) => {
   const user = req.user;
@@ -27,16 +28,32 @@ const getUsersFavoriteNotices = async (req, res) => {
             $unset: ["owner", "createdAt", "updatedAt"],
           },
         ],
-        as: "notices",
+        as: "notice",
       },
     },
     {
-      $unset: ["_id", "notice", "user"],
+      $unwind: {
+        'path': '$notice'
+      }
+    },
+    {
+      $replaceRoot : {
+      newRoot: "$notice"
+      }
+    },
+    {
+       $addFields : {favorite : true}
     },
   ];
 
-  const notices = await FavoriteNotice.aggregate(pipeline);
-  res.json({status: "success", data: notices});
+  await FavoriteNotice.aggregate(pipeline).exec((err, docs) => {
+    const result = docs.map((doc) => {
+      const { owner, ...docData } = Notice.hydrate(doc).toObject();
+      return docData;
+    });
+    res.json({ status: "success", data: result });
+  });
+  
 };
 
 module.exports = getUsersFavoriteNotices;

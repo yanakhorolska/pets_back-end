@@ -62,14 +62,15 @@ router
 
 router
   // отримання одного оголошення
-  .get("/:noticeId", isValidId("noticeId"), ctrlWrapper(ctrl.getNoticeById))
+  .get("/:noticeId", isValidId("noticeId"), checkUser, ctrlWrapper(ctrl.getNoticeById))
   .patch(
     "/:noticeId/imageUrl",
     isValidId("noticeId"),
+    authentificate,
     upload.single("notice"),
     ctrl.updateNoticeImage
   );
 
-router.get("/", ctrlWrapper(ctrl.getAllNotices));
+router.get("/", checkUser, ctrlWrapper(ctrl.getAllNotices));
 
-module.exports = router;
+module.exports = router; 

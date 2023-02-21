@@ -61,17 +61,24 @@ const notice = new Schema(
     versionKey: false,
     timestamps: true,
     toJSON: { virtuals: true },
-  },
-  {
-    virtuals: {
-      age: {
-        get() {
-          return calculateAge(this.dateOfBirth);
-        },
-      },
-    },
+    toObject: { virtuals: true },
   }
 );
+
+notice.virtual('age').get(function() {
+  const birthday = this.dateOfBirth
+
+  if (!birthday) return null
+
+  const ageDifMs = Date.now() - birthday.getTime();
+  const ageDate = new Date(ageDifMs);
+
+  return {
+    days: ageDate.getUTCDate(),
+    months: ageDate.getUTCMonth(),
+    years: Math.abs(ageDate.getUTCFullYear() - 1970),
+  };
+});
 
 const favoriteNoticeSchema = new Schema(
   {
@@ -84,9 +91,10 @@ const favoriteNoticeSchema = new Schema(
   }
 );
 
-const Notice = model("notice", notice);
 notice.post("save", handleValidationErrors);
 
+
+const Notice = model("notice", notice);
 const FavoriteNotice = model("favoritenotice", favoriteNoticeSchema);
 
 const addNoticeSchema = Joi.object({
@@ -94,17 +102,12 @@ const addNoticeSchema = Joi.object({
   petName: Joi.string().min(2).max(50).required(),
   dateOfBirth: Joi.date().format('YYYY-MM-DD').utc().required(),
   breed: Joi.string().required(),
-  sex: Joi.string().valid("male", "female").required(),
+  sex: Joi.string().valid(...SEX).default(SEX[0]),
   location: Joi.string().required(),
   price: Joi.number().min(0).max(100000),
   comment: Joi.string().max(200).allow(null),
 }).required();
 
-function calculateAge(birthday) {
-  const ageDifMs = Date.now() - birthday.getTime();
-  const ageDate = new Date(ageDifMs);
-  return Math.abs(ageDate.getUTCFullYear() - 1970);
-}
 
 module.exports = {
   Notice,
