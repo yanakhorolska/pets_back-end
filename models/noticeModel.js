@@ -99,7 +99,7 @@ const FavoriteNotice = model("favoritenotice", favoriteNoticeSchema);
 const addNoticeSchema = Joi.object({
   title: Joi.string().min(2).max(100).required(),
   petName: Joi.string().min(2).max(50).required(),
-  dateOfBirth: Joi.date().format('YYYY-MM-DD').utc().required(),
+  dateOfBirth: Joi.date().format('DD.MM.YYYY').utc().required(),
   breed: Joi.string().required(),
   sex: Joi.string().valid(...SEX).default(SEX[0]),
   location: Joi.string().required(),
