@@ -106,7 +106,7 @@ const updateSchema = Joi.object({
   email: Joi.string().email({ tlds: false }).min(1),
   birthday: Joi.date(),
   phone: Joi.string().pattern(/^\+380\d{9}$/),
-  city: Joi.string().pattern(/[[A-Za-zА-Яа-я]]+, [[A-Za-zА-Яа-я]]+/),
+  city: Joi.string().pattern(/[A-Za-zА-Яа-я]+, [A-Za-zА-Яа-я]+/),
 }).min(1);
 
 const schemas = { registerSchema, loginSchema, updateSchema };
