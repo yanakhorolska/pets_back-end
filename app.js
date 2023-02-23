@@ -12,7 +12,7 @@ const noticesRouter = require("./routes/api/noticesRoutes");
 const newsRouter = require("./routes/api/newsRoutes");
 const sponsorsRouter = require("./routes/api/sponsorsRoutes");
 const swaggerUi = require("swagger-ui-express");
-const swaggerDocument = require("./swagger/care-pets-en.json");
+const swaggerDocument = require("./swagger/pets-relise.json");
 
 
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
