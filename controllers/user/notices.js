@@ -46,7 +46,10 @@ const noticesUser =  async (req, res, next) => {
   ];
 
   await Notice.aggregate(pipieline).exec((err, docs) => {
-    const result = docs.map((doc) => Notice.hydrate(doc));
+    const result = docs.map((doc) => {
+      const { owner, ...docData } = Notice.hydrate(doc).toObject();
+      return docData;
+    });
     res.json({ status: "sucsess", data: result });
   });
 
