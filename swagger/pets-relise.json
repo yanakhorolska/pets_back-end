@@ -7,10 +7,6 @@
   },
   "servers": [
     {
-      "url": "https://virtserver.swaggerhub.com/Aleksandor2138/pets-docs/1.0.11",
-      "description": "SwaggerHub API Auto Mocking"
-    },
-    {
       "url": "https://pets-back-end.vercel.app/api"
     }
   ],
@@ -341,14 +337,27 @@
         "operationId": "addPet",
         "requestBody": {
           "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/pets_body"
-              }
-            },
             "multipart/form-data": {
               "schema": {
-                "$ref": "#/components/schemas/UserAvatar"
+                "$ref": "#/components/schemas/PetsBodyAvatar"
+              },
+              "encoding": {
+                "nickname": {
+                  "contentType": "application/json",
+                  "style": "form"
+                },
+                "breed": {
+                  "contentType": "application/json",
+                  "style": "form"
+                },
+                "comment": {
+                  "contentType": "application/json",
+                  "style": "form"
+                },
+                "birthday": {
+                  "contentType": "application/json",
+                  "style": "form"
+                }
               }
             }
           }
@@ -557,7 +566,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/pets_body"
+                "$ref": "#/components/schemas/PetsBody"
               }
             }
           }
@@ -678,14 +687,43 @@
         "requestBody": {
           "description": "For category \"inGoodHands\", delete  the price field.",
           "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UserPetIngood"
-              }
-            },
             "multipart/form-data": {
               "schema": {
-                "$ref": "#/components/schemas/UserPetAvatar"
+                "$ref": "#/components/schemas/UserPetIngood"
+              },
+              "encoding": {
+                "title": {
+                  "contentType": "application/json",
+                  "style": "form"
+                },
+                "petName": {
+                  "contentType": "application/json",
+                  "style": "form"
+                },
+                "dateOfBirth": {
+                  "contentType": "application/json",
+                  "style": "form"
+                },
+                "breed": {
+                  "contentType": "application/json",
+                  "style": "form"
+                },
+                "sex": {
+                  "contentType": "application/json",
+                  "style": "form"
+                },
+                "location": {
+                  "contentType": "application/json",
+                  "style": "form"
+                },
+                "price": {
+                  "contentType": "application/json",
+                  "style": "form"
+                },
+                "comment": {
+                  "contentType": "application/json",
+                  "style": "form"
+                }
               }
             }
           }
@@ -1201,15 +1239,6 @@
           }
         }
       },
-      "UserPetAvatar": {
-        "type": "object",
-        "properties": {
-          "imageUrl": {
-            "type": "string",
-            "format": "binary"
-          }
-        }
-      },
       "UserPetIngood": {
         "required": [
           "breed",
@@ -1253,6 +1282,10 @@
           "comment": {
             "type": "string",
             "example": "It is a good"
+          },
+          "imageUrl": {
+            "type": "string",
+            "format": "binary"
           }
         }
       },
@@ -1557,7 +1590,7 @@
           }
         }
       },
-      "pets_body": {
+      "PetsBody": {
         "type": "object",
         "properties": {
           "nickname": {
@@ -1575,6 +1608,32 @@
           "birthday": {
             "type": "string",
             "example": "2020-12-01"
+          }
+        }
+      },
+      "PetsBodyAvatar": {
+        "type": "object",
+        "properties": {
+          "nickname": {
+            "type": "string",
+            "example": "Мурка"
+          },
+          "breed": {
+            "type": "string",
+            "example": "Перс"
+          },
+          "comment": {
+            "type": "string",
+            "example": "хороший кот"
+          },
+          "birthday": {
+            "type": "string",
+            "example": "2020-12-01"
+          },
+          "avatar": {
+            "type": "string",
+            "description": "upload photo",
+            "format": "binary"
           }
         }
       },
