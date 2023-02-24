@@ -108,7 +108,6 @@ const addNoticeSchema = Joi.object({
   price: Joi.number().min(0).max(100000),
   comment: Joi.string().max(200),
 }).required();
-//
 
 module.exports = {
   Notice,
