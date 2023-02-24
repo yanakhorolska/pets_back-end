@@ -1,5 +1,5 @@
 const { Schema, model } = require("mongoose");
-const Joi = require("joi").extend(require('@joi/date'));
+const Joi = require("joi").extend(require("@joi/date"));
 const { handleValidationErrors } = require("../helpers");
 
 const NOTICE_CATEGORY = ["lostFound", "inGoodHands", "sell"];
@@ -65,10 +65,10 @@ const notice = new Schema(
   }
 );
 
-notice.virtual('age').get(function() {
-  const birthday = this.dateOfBirth
+notice.virtual("age").get(function () {
+  const birthday = this.dateOfBirth;
 
-  if (!birthday) return null
+  if (!birthday) return null;
 
   const ageDifMs = Date.now() - birthday.getTime();
   const ageDate = new Date(ageDifMs);
@@ -99,14 +99,15 @@ const FavoriteNotice = model("favoritenotice", favoriteNoticeSchema);
 const addNoticeSchema = Joi.object({
   title: Joi.string().min(2).max(100).required(),
   petName: Joi.string().min(2).max(50).required(),
-  dateOfBirth: Joi.date().format('YYYY-MM-DD').utc().required(),
+  dateOfBirth: Joi.date().format("YYYY-MM-DD").utc().required(),
   breed: Joi.string().required(),
-  sex: Joi.string().valid(...SEX).default(SEX[0]),
+  sex: Joi.string()
+    .valid(...SEX)
+    .default(SEX[0]),
   location: Joi.string().required(),
   price: Joi.number().min(0).max(100000),
-  comment: Joi.string().max(200).allow(null),
+  comment: Joi.string().max(200),
 }).required();
-
 
 module.exports = {
   Notice,
