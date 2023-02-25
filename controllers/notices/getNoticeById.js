@@ -14,7 +14,8 @@ const getNoticeById = async (req, res) => {
     if (user) {
       if (await FavoriteNotice.findOne({user, notice}))
         addInformation.favorite = true;
-      addInformation.favorite = false;
+      else
+        addInformation.favorite = false;
     }
     res.json({status: "success", data: {...result, ...addInformation}});
   } else {
