@@ -55,6 +55,9 @@ const getNoticesByCategory = async (req, res) => {
       },
     },
     {
+      $sort : { "createdAt" : -1}
+    },
+    {
       $unset: ["owner", "createdAt", "updatedAt"],
     },
   ];
