@@ -84,7 +84,7 @@ userSchema.post("save", handleValidationErrors);
 
 const registerSchema = Joi.object({
   email: Joi.string().email({ tlds: false }).required(),
-  password: Joi.string().alphanum().min(7).max(32).required(),
+  password: Joi.string().pattern(/^\S+$/).min(7).max(32).required(),
   confirmPassword: Joi.ref("password"),
   name: Joi.string()
     .min(3)
@@ -96,7 +96,7 @@ const registerSchema = Joi.object({
 
 const loginSchema = Joi.object({
   email: Joi.string().email({ tlds: false }).required(),
-  password: Joi.string().alphanum().min(7).max(32).required(),
+  password: Joi.string().pattern(/^\S+$/).min(7).max(32).required(),
 }).required();
 
 const updateSchema = Joi.object({
