@@ -36,6 +36,9 @@ const noticesUser =  async (req, res, next) => {
       },
     },
     {
+      $sort : { "createdAt" : -1}
+    },
+    {
       $unset: ["owner", "createdAt", "updatedAt"],
     },
     {

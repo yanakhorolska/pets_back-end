@@ -36,6 +36,9 @@ const getAllNotices = async (req, res) => {
       },
     },
     {
+      $sort : { "createdAt" : -1}
+    },
+    {
       $unset: ["createdAt", "updatedAt"],
     },
     {
