@@ -19,16 +19,14 @@ const notice = new Schema(
     },
     petName: {
       type: String,
-      minLength: 2,
-      required: [true, "Name for pet is required"],
+      default: "",
     },
     dateOfBirth: {
       type: Date,
-      required: [true, "Daye of birth for pet is required"],
     },
     breed: {
       type: String,
-      default: null,
+      default: "",
     },
     sex: {
       type: String,
@@ -41,7 +39,7 @@ const notice = new Schema(
     },
     price: {
       type: Number,
-      default: null,
+      default: 0,
     },
     imageUrl: {
       type: String,
@@ -49,7 +47,7 @@ const notice = new Schema(
     },
     comment: {
       type: String,
-      default: null,
+      default: "",
     },
     owner: {
       type: Schema.Types.ObjectId,
@@ -97,16 +95,20 @@ const Notice = model("notice", notice);
 const FavoriteNotice = model("favoritenotice", favoriteNoticeSchema);
 
 const addNoticeSchema = Joi.object({
+  category: Joi.string()
+    .valid(...NOTICE_CATEGORY)
+    .required(),
   title: Joi.string().min(2).max(100).required(),
-  petName: Joi.string().min(2).max(50).required(),
-  dateOfBirth: Joi.date().format("YYYY-MM-DD").utc().required(),
-  breed: Joi.string().required(),
+  petName: Joi.string().min(2).max(50).allow(""),
+  dateOfBirth: Joi.date().format("YYYY-MM-DD").utc().allow(""),
+  breed: Joi.string().required().allow(""),
   sex: Joi.string()
     .valid(...SEX)
     .default(SEX[0]),
   location: Joi.string().required(),
-  price: Joi.number().min(0).max(100000),
-  comment: Joi.string().optional().allow("").max(200),
+  price: Joi.string().when("category", { is: "sell", then: Joi.required() }),
+  comment: Joi.string().max(200).optional().allow(""),
+  imageUrl: Joi.string().optional().allow(""),
 }).required();
 
 module.exports = {
