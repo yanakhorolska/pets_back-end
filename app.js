@@ -7,10 +7,13 @@ require("dotenv").config();
 
 const authRouter = require("./routes/api/authRoutes");
 const userRouter = require("./routes/api/userRoutes");
-const petsRouter = require('./routes/api/petsRoutes');
+const petsRouter = require("./routes/api/petsRoutes");
 const noticesRouter = require("./routes/api/noticesRoutes");
 const newsRouter = require("./routes/api/newsRoutes");
-const sponsorsRouter = require('./routes/api/sponsorsRoutes');
+const sponsorsRouter = require("./routes/api/sponsorsRoutes");
+const swaggerUi = require("swagger-ui-express");
+const swaggerDocument = require("./swagger/pets-relise.json");
+
 
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
 
@@ -27,6 +30,9 @@ app.use("/api/notices", noticesRouter);
 
 app.use("/api/news", newsRouter);
 app.use("/api/friends", sponsorsRouter);
+
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
 
 app.use((_, res) => {
   res.status(404).json({ message: "Not found" });

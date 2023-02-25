@@ -1,0 +1,1722 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Pets",
+    "description": "Pets Finder Site Database ",
+    "version": "1.0.11"
+  },
+  "servers": [
+    {
+      "url": "https://pets-back-end.vercel.app/api"
+    }
+  ],
+  "tags": [
+    {
+      "name": "user",
+      "description": "Operations about user"
+    },
+    {
+      "name": "friends",
+      "description": "Operations about friends"
+    },
+    {
+      "name": "news",
+      "description": "Operations about news"
+    },
+    {
+      "name": "pet",
+      "description": "Everything about your Pets"
+    },
+    {
+      "name": "notices",
+      "description": "Everything about notices"
+    }
+  ],
+  "paths": {
+    "/users/register": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Create user",
+        "description": "User registration on the site.",
+        "operationId": "register",
+        "requestBody": {
+          "description": "Created user object",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserCurrent"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "has not correct format"
+          },
+          "409": {
+            "description": "User with this email address already exists"
+          }
+        }
+      }
+    },
+    "/users/login": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "User authorization on the site.",
+        "operationId": "login",
+        "requestBody": {
+          "description": "Created user object",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserLogin"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserLoginRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Email or password is wrong"
+          }
+        }
+      }
+    },
+    "/users/logout": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Logs out current logged in user session.",
+        "description": "This can only be done by the logged in user.",
+        "operationId": "logout",
+        "responses": {
+          "204": {
+            "description": "successful operation"
+          },
+          "401": {
+            "description": "token type is not valid"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/users/current": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Getting the data of the current user in the user's account.",
+        "description": "This can only be done by the logged in user.",
+        "operationId": "currentUser",
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserCurrentRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "jwt token is not valid"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/users/update": {
+      "patch": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Update user information",
+        "description": "This can only be done by the logged in user.",
+        "operationId": "updateFilds",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UsersUpdateBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserCurrentRequest"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "has not correct format"
+          },
+          "401": {
+            "description": "jwt token is not valid"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/users/avatars": {
+      "patch": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Update user avatar",
+        "description": "This can only be done by the logged in user.",
+        "operationId": "updateAvatar",
+        "requestBody": {
+          "description": "Select the parameter(s) you want to change. Delete the rest.",
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/UserAvatar"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserAvatarRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "jwt token is not valid"
+          },
+          "500": {
+            "description": "Cannot destructure property path of fileToUpload as it is undefined."
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/users/pets": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Get all user pets",
+        "description": "This can only be done by the logged in user.",
+        "operationId": "userPets",
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserPetRequest"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "jwt token is not valid"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/friends": {
+      "get": {
+        "tags": [
+          "friends"
+        ],
+        "summary": "Get all friends",
+        "description": "Returns a map of friends codes to quantities",
+        "operationId": "getAll",
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/FriendsRequest"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/news": {
+      "get": {
+        "tags": [
+          "news"
+        ],
+        "summary": "Get all news",
+        "description": "Returns a map of news codes to quantities",
+        "operationId": "getNews",
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/NewsRequest"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/pets": {
+      "post": {
+        "tags": [
+          "pet"
+        ],
+        "summary": "Add new pet",
+        "description": "This can only be done by the logged in user.",
+        "operationId": "addPet",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/PetsBodyAvatar"
+              },
+              "encoding": {
+                "nickname": {
+                  "contentType": "application/json",
+                  "style": "form"
+                },
+                "breed": {
+                  "contentType": "application/json",
+                  "style": "form"
+                },
+                "comment": {
+                  "contentType": "application/json",
+                  "style": "form"
+                },
+                "birthday": {
+                  "contentType": "application/json",
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserPetRequest"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "has not correct format"
+          },
+          "401": {
+            "description": "jwt token is not valid"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/pets/{petId}/avatars": {
+      "patch": {
+        "tags": [
+          "pet"
+        ],
+        "summary": "Updat pets avatar",
+        "description": "This can only be done by the logged in user.",
+        "operationId": "pet/updateAvatar",
+        "parameters": [
+          {
+            "name": "petId",
+            "in": "path",
+            "description": "pet id",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Upload photo",
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/UserAvatar"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PetrAvatarRequest"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "petId has not correct format"
+          },
+          "401": {
+            "description": "jwt token is not valid"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/pets/{petId}": {
+      "get": {
+        "tags": [
+          "pet"
+        ],
+        "summary": "Get pet by id",
+        "description": "This can only be done by the logged in user.",
+        "operationId": "getById",
+        "parameters": [
+          {
+            "name": "petId",
+            "in": "path",
+            "description": "pet id",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserPetRequest"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "petId has not correct format"
+          },
+          "401": {
+            "description": "jwt token is not valid"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "pet"
+        ],
+        "summary": "Delete pet by id",
+        "description": "This can only be done by the logged in user.",
+        "operationId": "deletePet",
+        "parameters": [
+          {
+            "name": "petId",
+            "in": "path",
+            "description": "pet id",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserPetDel"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "petId has not correct format"
+          },
+          "401": {
+            "description": "jwt token is not valid"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "pet"
+        ],
+        "summary": "Change pet details",
+        "description": "This can only be done by the logged in user.",
+        "operationId": "updateById",
+        "parameters": [
+          {
+            "name": "petId",
+            "in": "path",
+            "description": "pet id",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PetsBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserPetRequest"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "petId has not correct format"
+          },
+          "401": {
+            "description": "jwt token is not valid"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/notices": {
+      "get": {
+        "tags": [
+          "notices"
+        ],
+        "summary": "Get list all notices",
+        "description": "This can only be done by the logged in user.",
+        "operationId": "getAllNotices",
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PetNotisesRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "jwt token is not valid"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/notices/category/{category}": {
+      "get": {
+        "tags": [
+          "notices"
+        ],
+        "summary": "Get a list notices sort by category",
+        "operationId": "getNoticesByCategory",
+        "parameters": [
+          {
+            "name": "category",
+            "in": "path",
+            "description": "notices category [ lostFound | inGoodHands | sell ]",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "example": "sell"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PetNotisesRequest"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "notices"
+        ],
+        "summary": "Add a new notice",
+        "description": "This can only be done by the logged in user.",
+        "operationId": "createNotice",
+        "parameters": [
+          {
+            "name": "category",
+            "in": "path",
+            "description": "notices category [ lostFound | inGoodHands | sell ]",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "example": "sell"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "For category \"inGoodHands\", delete  the price field.",
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/UserPetIngood"
+              },
+              "encoding": {
+                "title": {
+                  "contentType": "application/json",
+                  "style": "form"
+                },
+                "petName": {
+                  "contentType": "application/json",
+                  "style": "form"
+                },
+                "dateOfBirth": {
+                  "contentType": "application/json",
+                  "style": "form"
+                },
+                "breed": {
+                  "contentType": "application/json",
+                  "style": "form"
+                },
+                "sex": {
+                  "contentType": "application/json",
+                  "style": "form"
+                },
+                "location": {
+                  "contentType": "application/json",
+                  "style": "form"
+                },
+                "price": {
+                  "contentType": "application/json",
+                  "style": "form"
+                },
+                "comment": {
+                  "contentType": "application/json",
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PetNotisesRequest"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "has not correct format"
+          },
+          "401": {
+            "description": "jwt token is not valid"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/notices/myNotices": {
+      "get": {
+        "tags": [
+          "notices"
+        ],
+        "summary": "Get notices by user",
+        "description": "This can only be done by the logged in user.",
+        "operationId": "myNotices",
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PetNotisesRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "jwt token is not valid"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/notices/myNotices/{noticeId}": {
+      "delete": {
+        "tags": [
+          "notices"
+        ],
+        "summary": "Delete notices by id",
+        "description": "This can only be done by the logged in user.",
+        "operationId": "deleteNoticeById",
+        "parameters": [
+          {
+            "name": "noticeId",
+            "in": "path",
+            "description": "notices id",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotisesDel"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "jwt token is not valid"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/notices/favorites": {
+      "get": {
+        "tags": [
+          "notices"
+        ],
+        "summary": "Get data about the user's favorite ads",
+        "description": "This can only be done by the logged in user.",
+        "operationId": "getUsersFavoriteNotices",
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PetNotisesRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "jwt token is not valid"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/notices/favorites/{noticeId}": {
+      "post": {
+        "tags": [
+          "notices"
+        ],
+        "summary": "Add ad to favorites by user",
+        "description": "This can only be done by the logged in user.",
+        "operationId": "addToFavorites",
+        "parameters": [
+          {
+            "name": "noticeId",
+            "in": "path",
+            "description": "notices id",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_201"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "has not correct format"
+          },
+          "401": {
+            "description": "jwt token is not valid"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "notices"
+        ],
+        "summary": "Delete from  favorites by user",
+        "description": "This can only be done by the logged in user.",
+        "operationId": "removeFromFavorites",
+        "parameters": [
+          {
+            "name": "noticeId",
+            "in": "path",
+            "description": "notices id",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_201_1"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "has not correct format"
+          },
+          "401": {
+            "description": "jwt token is not valid"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/notices/{noticeId}": {
+      "get": {
+        "tags": [
+          "notices"
+        ],
+        "summary": "Getting one ad by id.",
+        "operationId": "getNotisesById",
+        "parameters": [
+          {
+            "name": "noticeId",
+            "in": "path",
+            "description": "notices id",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PetNotisId"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "has not correct format"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/notices/{noticeId}/imageUrl": {
+      "patch": {
+        "tags": [
+          "notices"
+        ],
+        "summary": "Change notis image",
+        "description": "This can only be done by the logged in user.",
+        "parameters": [
+          {
+            "name": "noticeId",
+            "in": "path",
+            "description": "notice id",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Upload photo",
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/NotisIMG"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotisIMGResponses"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "has not correct format"
+          },
+          "401": {
+            "description": "jwt token is not valid"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Age": {
+        "required": [
+          "token"
+        ],
+        "type": "object",
+        "properties": {
+          "days": {
+            "type": "string",
+            "example": "22"
+          },
+          "months": {
+            "type": "string",
+            "example": "0"
+          },
+          "years": {
+            "type": "string",
+            "example": "3"
+          }
+        }
+      },
+      "Id": {
+        "type": "string",
+        "example": "893386768g864sashad83e59"
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Sasha"
+          },
+          "email": {
+            "type": "string",
+            "example": "Sasha@email.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "1234567"
+          },
+          "phone": {
+            "type": "string",
+            "example": "+380675553322"
+          },
+          "city": {
+            "type": "string",
+            "example": "Kharkiv, Kharkiv"
+          }
+        },
+        "xml": {
+          "name": "user"
+        }
+      },
+      "UserLogin": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "Sasha@email.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "1234567"
+          }
+        }
+      },
+      "UserCurrent": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Sasha"
+          },
+          "email": {
+            "type": "string",
+            "example": "Sasha@email.com"
+          },
+          "phone": {
+            "type": "string",
+            "example": "+380675553322"
+          },
+          "city": {
+            "type": "string",
+            "example": "Kharkiv, Kharkiv"
+          },
+          "birthday": {
+            "type": "string",
+            "example": "00.00.0000"
+          },
+          "avatarURL": {
+            "type": "string",
+            "example": "https://res.cloudinary.com/dwwvmul1w/image/upload/v1676815733/pets-project/avatars/63f0f6500eb951a144761ab4.png"
+          }
+        }
+      },
+      "UserCurrentRequest": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "sucsses"
+          },
+          "data": {
+            "$ref": "#/components/schemas/UserCurrent"
+          }
+        }
+      },
+      "UserLoginRequest": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string"
+          },
+          "users": {
+            "$ref": "#/components/schemas/UserLoginRequest_users"
+          }
+        }
+      },
+      "UserAvatar": {
+        "type": "object",
+        "properties": {
+          "avatar": {
+            "type": "string",
+            "description": "upload photo",
+            "format": "binary"
+          }
+        }
+      },
+      "UserAvatarRequest": {
+        "type": "object",
+        "properties": {
+          "avatarURL": {
+            "type": "string",
+            "example": "https://res.cloudinary.com/dwwvmul1w/image/upload/v1677246017/pets-project/avatars/63f0f6500eb951a144761ab4.jpg"
+          }
+        }
+      },
+      "UserPet": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "nickname": {
+            "type": "string",
+            "example": "Murka"
+          },
+          "breed": {
+            "type": "string",
+            "example": "Persian"
+          },
+          "birthday": {
+            "type": "string",
+            "example": "00.00.0000"
+          },
+          "avatarURL": {
+            "type": "string",
+            "example": "https://www.purina.co.uk/sites/default/files/styles/square_medium_440x440/public/2022-06/Persian-Long-Hair.jpg?itok=OEork2Dh"
+          },
+          "comments": {
+            "type": "string",
+            "example": "It is a good cat"
+          },
+          "id": {
+            "$ref": "#/components/schemas/Id"
+          }
+        }
+      },
+      "UserPetRequest": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "sucsses"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UserPet"
+            }
+          }
+        }
+      },
+      "UserPetIngood": {
+        "required": [
+          "breed",
+          "comment",
+          "dateOfBirth",
+          "petName",
+          "sex",
+          "title"
+        ],
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "example": "Prodam koshku"
+          },
+          "petName": {
+            "type": "string",
+            "example": "Murka"
+          },
+          "dateOfBirth": {
+            "type": "string",
+            "example": "2020-02-02"
+          },
+          "breed": {
+            "type": "string",
+            "example": "Persian"
+          },
+          "sex": {
+            "type": "string",
+            "description": "male or female",
+            "example": "female"
+          },
+          "location": {
+            "type": "string",
+            "example": "Kharkiv"
+          },
+          "price": {
+            "type": "string",
+            "example": "45"
+          },
+          "comment": {
+            "type": "string",
+            "example": "It is a good"
+          },
+          "imageUrl": {
+            "type": "string",
+            "format": "binary"
+          }
+        }
+      },
+      "UserPetDel": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "success"
+          },
+          "message": {
+            "$ref": "#/components/schemas/UserPetDel_message"
+          }
+        }
+      },
+      "PetNotises": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "title": {
+            "type": "string",
+            "example": "Prodam koshku"
+          },
+          "category": {
+            "type": "string",
+            "example": "sell"
+          },
+          "petName": {
+            "type": "string",
+            "example": "Murka"
+          },
+          "dateOfBirth": {
+            "type": "string",
+            "example": "2020-02-02"
+          },
+          "breed": {
+            "type": "string",
+            "example": "Persian"
+          },
+          "sex": {
+            "type": "string",
+            "example": "male of female"
+          },
+          "location": {
+            "type": "string",
+            "example": "sity"
+          },
+          "price": {
+            "type": "string",
+            "example": "300$"
+          },
+          "imageUrl": {
+            "type": "string",
+            "example": "https://www.purina.co.uk/sites/default/files/styles/square_medium_440x440/public/2022-06/Persian-Long-Hair.jpg?itok=OEork2Dh"
+          },
+          "comments": {
+            "type": "string",
+            "example": "It is a good cat"
+          },
+          "favorite": {
+            "type": "string",
+            "example": "true of false"
+          },
+          "age": {
+            "$ref": "#/components/schemas/Age"
+          }
+        }
+      },
+      "PetNotisesRequest": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "success"
+          },
+          "data": {
+            "$ref": "#/components/schemas/PetNotises"
+          }
+        }
+      },
+      "PetNotisId": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "success"
+          },
+          "data": {
+            "$ref": "#/components/schemas/PetNotises"
+          },
+          "id": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "email": {
+            "type": "string",
+            "example": "Sasha@email.com"
+          },
+          "phone": {
+            "type": "string",
+            "example": "380675553322"
+          }
+        }
+      },
+      "PetrAvatarRequest": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "notises deleted"
+          },
+          "data": {
+            "type": "string",
+            "example": "https://res.cloudinary.com/dwwvmul1w/image/upload/v1677249959/pets-project/pets/63f8cbd4b5f73a3409caf67f.png"
+          }
+        }
+      },
+      "NotisesDel": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "success"
+          },
+          "data": {
+            "$ref": "#/components/schemas/NotisesDel_data"
+          }
+        }
+      },
+      "NotisIMG": {
+        "type": "object",
+        "properties": {
+          "notice": {
+            "type": "string",
+            "format": "binary"
+          }
+        }
+      },
+      "NotisIMGResponses": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "success"
+          },
+          "data": {
+            "type": "string",
+            "example": "https://res.cloudinary.com/dwwvmul1w/image/upload/v1677184241/pets-project/notices/63f77ac43b6b04fe2739bcd2.png"
+          }
+        }
+      },
+      "Friends": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "title": {
+            "type": "string",
+            "example": "Purina"
+          },
+          "url": {
+            "type": "string",
+            "example": "https://www.purina.ua/"
+          },
+          "addressUrl": {
+            "type": "string",
+            "example": "https://goo.gl/maps/P6YvmtdsCQqFzyQz7"
+          },
+          "imageUrl": {
+            "type": "string",
+            "example": "https://www.purina.ua/sites/default/files/2018-08/Hero_Image_C4_Purina_history_0.jpghttps://storage.googleapis.com/kidslikev2_bucket/pets-support/images/sponsors/frame_287.png"
+          },
+          "address": {
+            "type": "string",
+            "example": "Kyiv, Kyiv Oblast, Ukraine"
+          },
+          "workDays": {
+            "type": "array",
+            "items": {
+              "oneOf": [
+                {
+                  "type": "object",
+                  "example": {
+                    "isOpen": false
+                  }
+                },
+                {
+                  "type": "object",
+                  "example": {
+                    "isOpen": true,
+                    "from": "09:00",
+                    "to": "16:00"
+                  }
+                }
+              ]
+            }
+          },
+          "phone": {
+            "type": "string",
+            "example": "1-800-788-7462"
+          },
+          "email": {
+            "type": "string",
+            "example": "info@ua.nestle.com"
+          }
+        }
+      },
+      "FriendsRequest": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "sucsses"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Friends"
+            }
+          }
+        }
+      },
+      "News": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "title": {
+            "type": "string",
+            "example": "Обережно, кліщі! Як уберегти улюбленця від неприємностей?"
+          },
+          "url": {
+            "type": "string",
+            "example": "https://www.kmlvm.com.ua/oberezhno-klishhi-yak-uberegty-ulyublentsya-vid-nepryyemnostej/"
+          },
+          "description": {
+            "type": "string",
+            "example": "Травневі прогулянки з улюбленцем не лише приємні..."
+          },
+          "date": {
+            "type": "string",
+            "example": "2022-05-04"
+          }
+        }
+      },
+      "NewsRequest": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "sucsses"
+          },
+          "pages": {
+            "$ref": "#/components/schemas/NewsRequest_pages"
+          },
+          "total": {
+            "type": "string",
+            "example": "20"
+          },
+          "length": {
+            "type": "string",
+            "example": "6"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/News"
+            }
+          }
+        }
+      },
+      "UsersUpdateBody": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "format": "Sasha",
+            "example": "Vasya"
+          },
+          "email": {
+            "type": "string",
+            "format": "Sasha@email.com",
+            "example": "Vasya@email.com"
+          },
+          "city": {
+            "type": "string",
+            "format": "Kharkiv, Kharkiv",
+            "example": "Poltsva, Poltava"
+          },
+          "phone": {
+            "type": "string",
+            "format": "+380675553322",
+            "example": "+380679876543"
+          },
+          "birthday": {
+            "type": "string",
+            "format": "00.00.0000",
+            "example": "12.03.2020"
+          }
+        }
+      },
+      "PetsBody": {
+        "type": "object",
+        "properties": {
+          "nickname": {
+            "type": "string",
+            "example": "Мурка"
+          },
+          "breed": {
+            "type": "string",
+            "example": "Перс"
+          },
+          "comment": {
+            "type": "string",
+            "example": "хороший кот"
+          },
+          "birthday": {
+            "type": "string",
+            "example": "2020-12-01"
+          }
+        }
+      },
+      "PetsBodyAvatar": {
+        "type": "object",
+        "properties": {
+          "nickname": {
+            "type": "string",
+            "example": "Мурка"
+          },
+          "breed": {
+            "type": "string",
+            "example": "Перс"
+          },
+          "comment": {
+            "type": "string",
+            "example": "хороший кот"
+          },
+          "birthday": {
+            "type": "string",
+            "example": "2020-12-01"
+          },
+          "avatar": {
+            "type": "string",
+            "description": "upload photo",
+            "format": "binary"
+          }
+        }
+      },
+      "UserLoginRequest_users": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "Sasha@email.com"
+          },
+          "name": {
+            "type": "string",
+            "example": "Sasha"
+          }
+        }
+      },
+      "inline_response_201": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "sucsess"
+          }
+        }
+      },
+      "inline_response_201_1": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "sucsess"
+          },
+          "message": {
+            "type": "string",
+            "example": "Notice removed from favorite"
+          }
+        }
+      },
+      "UserPetDel_message": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "pet deleted"
+          },
+          "id": {
+            "$ref": "#/components/schemas/Id"
+          }
+        }
+      },
+      "NotisesDel_data": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "notises deleted"
+          },
+          "id": {
+            "$ref": "#/components/schemas/Id"
+          }
+        }
+      },
+      "NewsRequest_pages": {
+        "type": "object",
+        "properties": {
+          "page": {
+            "type": "string",
+            "example": "1"
+          },
+          "status": {
+            "type": "string",
+            "example": "4"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "Authorization": {
+        "type": "http",
+        "description": "Enter a valid token.",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}
