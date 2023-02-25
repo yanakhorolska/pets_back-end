@@ -4,7 +4,7 @@ const getAllNotices = async (req, res) => {
   const user = req?.user;
 
   if (!user) {
-    const notices = await Notice.find({}, "-owner -createdAt -updatedAt")
+    const notices = await Notice.find({}, "-owner -createdAt -updatedAt").sort({"createdAt": -1})
     return res.json({status: "success", data: notices});
   }
 

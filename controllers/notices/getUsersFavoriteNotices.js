@@ -32,6 +32,9 @@ const getUsersFavoriteNotices = async (req, res) => {
       },
     },
     {
+      $sort : { "createdAt" : -1}
+    },
+    {
       $unwind: {
         'path': '$notice'
       }
