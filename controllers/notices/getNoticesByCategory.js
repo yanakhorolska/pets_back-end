@@ -5,9 +5,12 @@ const getNoticesByCategory = async (req, res) => {
   const user = req?.user;
 
   if (!user) {
-    const notices = await Notice.find({ category }, "-owner -createdAt -updatedAt");
+    const notices = await Notice.find(
+      { category },
+      "-owner -createdAt -updatedAt"
+    ).sort({ createdAt: -1 });
 
-    return res.json({status: "success", data : notices});
+    return res.json({ status: "success", data: notices });
   }
 
   const pipeline = [
