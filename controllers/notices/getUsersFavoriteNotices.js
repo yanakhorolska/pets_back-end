@@ -52,7 +52,7 @@ const getUsersFavoriteNotices = async (req, res) => {
       }
     },
     {
-       $addFields : {favorite : true},
+       $addFields : {favorite : true}
     },
   ];
 
