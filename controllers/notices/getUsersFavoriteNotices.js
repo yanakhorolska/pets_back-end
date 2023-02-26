@@ -25,6 +25,13 @@ const getUsersFavoriteNotices = async (req, res) => {
             },
           },
           {
+            $addFields : {
+              myads: {
+                $eq:["$owner", user._id]
+              }
+            }
+          },
+          {
             $unset: ["owner", "createdAt", "updatedAt"],
           },
         ],
@@ -45,7 +52,7 @@ const getUsersFavoriteNotices = async (req, res) => {
       }
     },
     {
-       $addFields : {favorite : true}
+       $addFields : {favorite : true},
     },
   ];
 

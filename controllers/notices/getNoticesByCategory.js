@@ -47,6 +47,9 @@ const getNoticesByCategory = async (req, res) => {
     },
     {
       $addFields: {
+        myads: {
+          $eq:["$owner", user._id]
+        },
         favorite: {
           $convert: {
             input: {
