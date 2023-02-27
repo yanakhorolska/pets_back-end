@@ -5,7 +5,7 @@ dotenv.config();
 
 const app = require("./app");
 
-const { PORT = 3001, MONGO_URI } = process.env;
+const { PORT = 3000, MONGO_URI } = process.env;
 
 mongoose.Promise = global.Promise;
 mongoose.set("strictQuery", true);
