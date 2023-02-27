@@ -7,7 +7,11 @@ async function getNews(req, res) {
   const queryPage = isNaN(page) ? 1 : Number(page);
   const queryLimit = isNaN(limit) ? 6 : Number(limit);
 
-  const options = { skip: (queryPage - 1) * queryLimit, limit: queryLimit };
+  const options = {
+    skip: (queryPage - 1) * queryLimit,
+    limit: queryLimit,
+    sort: { date: -1 },
+  };
 
   const query = reqQuery
     ? {
@@ -17,8 +21,6 @@ async function getNews(req, res) {
         ],
       }
     : {};
-
-  if (!reqQuery) options.sort = { date: -1 };
 
   News.find(query, "", options).exec((err, result) => {
     if (err) {
@@ -31,9 +33,9 @@ async function getNews(req, res) {
         data: { message: "No news found" },
       });
 
-    News.countDocuments(query).exec((count_error, count) => {
-      if (count_error) {
-        return InternalServerError(count_error.message);
+    News.countDocuments(query).exec((countError, count) => {
+      if (countError) {
+        return InternalServerError(countError.message);
       }
       return res.json({
         status: "success",
