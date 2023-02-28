@@ -8,7 +8,7 @@ const { USER_DEFAULT_AVATAR: defaultAvatarURL = "" } = process.env;
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-const { SECRET_KEY } = process.env;
+const {SECRET_KEY} = process.env;
 
 const userSchema = new Schema(
   {
@@ -85,7 +85,6 @@ userSchema.post("save", handleValidationErrors);
 const registerSchema = Joi.object({
   email: Joi.string().email({ tlds: false }).required(),
   password: Joi.string().pattern(/^\S+$/).min(7).max(32).required(),
-  confirmPassword: Joi.ref("password"),
   name: Joi.string()
     .min(3)
     .pattern(/[A-Za-zА-Яа-я]+/)

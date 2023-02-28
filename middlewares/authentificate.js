@@ -2,9 +2,7 @@ const { User } = require("../models/userModel");
 const jwt = require("jsonwebtoken");
 const { Unauthorized } = require('http-errors')
 
-
-const { SECRET_KEY } = process.env;
-
+const {SECRET_KEY} = process.env;
 
 async function authentificate(req, res, next) {
   const authHeader = req.headers.authorization || "";

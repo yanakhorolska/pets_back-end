@@ -1,9 +1,6 @@
 const { Router } = require("express");
-
 const { auth: ctrl } = require("../../controllers");
-
 const { ctrlWrapper } = require("../../helpers");
-
 const { authentificate, validation } = require("../../middlewares");
 const { schemas } = require('../../models/userModel')
 

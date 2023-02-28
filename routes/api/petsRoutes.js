@@ -2,9 +2,7 @@ const { Router } = require("express");
 const { schemas, customMessage } = require('../../models/petModel')
 
 const { pets: ctrl } = require("../../controllers");
-
 const { ctrlWrapper } = require("../../helpers");
-
 const { authentificate, validation, isValidId, upload } = require("../../middlewares");
 
 const router = Router();

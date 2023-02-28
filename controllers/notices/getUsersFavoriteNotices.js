@@ -1,6 +1,5 @@
 const { Notice, FavoriteNotice } = require("../../models/noticeModel");
 
-
 const getUsersFavoriteNotices = async (req, res) => {
   const user = req.user;
 

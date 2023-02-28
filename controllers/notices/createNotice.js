@@ -1,5 +1,4 @@
 const { Notice } = require("../../models/noticeModel");
-// const { InternalServerError } = require("http-errors");
 const { cloudinaryUpload } = require("../../services");
 
 const createNotice = async (req, res) => {
@@ -16,11 +15,10 @@ const createNotice = async (req, res) => {
     const imageUrl = await cloudinaryUpload(req.file, newNotice._id, "notices");
     newNotice.imageUrl = imageUrl;
   }
+  
   await newNotice.save();
 
   const result = await Notice.findById(newNotice._id, "-owner -createdAt -updatedAt")
-
-  console.log(result);
 
   res.status(201).json({status: "success", data: result});
 };

@@ -1,11 +1,7 @@
 const { Router } = require("express");
-
 const { user: ctrl } = require("../../controllers");
-
 const { ctrlWrapper } = require("../../helpers");
-
 const { authentificate, validation, upload } = require("../../middlewares");
-
 const { schemas, customMessage } = require("../../models/userModel")
 
 const router = Router();

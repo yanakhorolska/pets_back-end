@@ -1,8 +1,6 @@
 const { Router } = require("express");
-
 const { notices: ctrl } = require("../../controllers");
 const { ctrlWrapper } = require("../../helpers");
-
 const { addNoticeSchema } = require("../../models/noticeModel");
 
 const {
@@ -29,9 +27,7 @@ router
 
 router //
   // отримання оголошень авторизованого кристувача створених цим же користувачем
-  .get("/myNotices", authentificate, ctrlWrapper(ctrl.getAllUsersNotices));
-
-router
+  .get("/myNotices", authentificate, ctrlWrapper(ctrl.getAllUsersNotices))
   // видалення оголошення авторизованого користувача створеного цим же користувачем
   .delete(
     "/myNotices/:noticeId",
@@ -42,9 +38,7 @@ router
 
 router
   // отримання оголошень авторизованого користувача доданих ним же в обрані
-  .get("/favorites", authentificate, ctrlWrapper(ctrl.getUsersFavoriteNotices));
-
-router
+  .get("/favorites", authentificate, ctrlWrapper(ctrl.getUsersFavoriteNotices))
   // додавання оголошення авторизованого користувача до обраних
   .post(
     "/favorites/:noticeId",
@@ -63,6 +57,7 @@ router
 router
   // отримання одного оголошення
   .get("/:noticeId", isValidId("noticeId"), checkUser, ctrlWrapper(ctrl.getNoticeById))
+  // додавання зображення оголошення
   .patch(
     "/:noticeId/imageUrl",
     isValidId("noticeId"),

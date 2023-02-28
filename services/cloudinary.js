@@ -48,16 +48,6 @@ const cloudinaryUpload = async (imagePath, publicId, path) => {
     });
   };
 
-  // const resultUpload = () => { cloudinary.uploader.upload_stream(
-  //   { public_id, folder: `${mainFolder}/${path}` },
-  //   (err, result) => { console.log("callback", result.secure_url); result.secure_url }  //{ if (err) throw err; console.log(result.secure_url) }
-  // ).end(imagePath)}
-
-  // const url = cloudinary.url(public_id, {
-  //   width: 100,
-  //   height: 150,
-  //   Crop: 'fill'
-  // });
   try {
     const resultUpload = await upload();
     return resultUpload.secure_url;
